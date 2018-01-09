@@ -7,7 +7,7 @@ import luxe.options.ComponentOptions;
 import luxe.options.SpriteOptions;
 import luxe.Rectangle;
 import luxe.Sprite;
-import luxe.Sound;
+import luxe.Audio;
 import luxe.Vector;
 
 class Gal extends Enemy

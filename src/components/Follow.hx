@@ -25,18 +25,18 @@ class Follow extends Component
 
     var _v:Vector;
 
-    override public function new(_options:FollowOptions)
+    override public function new(options:FollowOptions)
     {
-        super( _options);
+        super(options);
 
-        target = _options.target;
+        target = options.target;
 
-        if(_options.lerp > 0){
-            lerp = _options.lerp;
+        if(options.lerp > 0){
+            lerp = options.lerp;
         }
 
-        if(_options.follow_type != null){
-            follow_type = _options.follow_type;
+        if(options.follow_type != null){
+            follow_type = options.follow_type;
         }
     }
 

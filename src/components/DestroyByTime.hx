@@ -16,11 +16,11 @@ class DestroyByTime extends Component
 
     override public function new( options:DestroyByTimeOptions )
     {
+        super(options);
+        
         time = options.time;
 
         options.name = 'destroybytime';
-
-        super(options);
 
         Luxe.timer.schedule(time, killme);
     }

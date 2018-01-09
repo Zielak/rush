@@ -8,8 +8,6 @@ import luxe.Timer;
 import luxe.Vector;
 import phoenix.Texture;
 
-import Game;
-
 class IntroState extends State {
 
     var darek_logo:Sprite;

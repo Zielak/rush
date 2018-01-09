@@ -26,7 +26,7 @@ class MenuState extends State {
     var showing_help:Bool;
     var input_wait:Bool;
 
-    var s_start:Audio;
+    // var s_start:Audio;
 
     public function new()
     {
@@ -46,7 +46,7 @@ class MenuState extends State {
         showing_help = false;
         input_wait = true;
 
-        s_start = Luxe.audio.get('start');
+        // s_start = Luxe.audio.get('start');
 
         bg = new Sprite({
             texture: Luxe.resources.texture('assets/images/rush_logo_bg.gif'),
@@ -209,7 +209,7 @@ class MenuState extends State {
     {
         input_wait = true;
         Luxe.events.fire('state.menu.start_game');
-        s_start.play();
+        // s_start.play();
 
         shine.color.a = 0.7;
         shine.color.tween(0.5, {a: 0});

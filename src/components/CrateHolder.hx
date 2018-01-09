@@ -6,7 +6,7 @@ import components.PuffEmitter;
 import enemies.Crate;
 import luxe.Component;
 import luxe.Entity;
-import luxe.Sound;
+import luxe.Audio;
 import luxe.Vector;
 
 class CrateHolder extends Component {

@@ -21,9 +21,9 @@ class DestroyByDistance extends Component
 
     override public function new( options:DestroyByDistanceOptions )
     {
-        distance = options.distance;
-
         super(options);
+        
+        distance = options.distance;
 
         timer = Luxe.timer.schedule(0.5, step, true);
     }

@@ -20,11 +20,11 @@ class Cursor extends Component
     var mouse_pos:Vector;
 
 
-    public function new(_options:CursorOptions)
+    override public function new(options:CursorOptions)
     {
-        super(_options);
-        batcher = _options.batcher;
-        depth = _options.depth;
+        super(options);
+        batcher = options.batcher;
+        depth = options.depth;
 
     }
 

@@ -25,16 +25,16 @@ class LowresShader extends Component
     var final_shader : Shader;
 
 
-    override public function new(_options:LowresShaderOptions)
+    override public function new(options:LowresShaderOptions)
     {
-        super(_options);
+        super(options);
 
-        // if(_options.color_ramp != color_ramp){
-        //     color_ramp = _options.color_ramp;
+        // if(options.color_ramp != color_ramp){
+        //     color_ramp = options.color_ramp;
         // }
 
-        if(_options.pixel_size != null){
-            pixel_size = _options.pixel_size;
+        if(options.pixel_size != null){
+            pixel_size = options.pixel_size;
         }else{
             pixel_size = new Vector(Game.width, Game.height);
         }

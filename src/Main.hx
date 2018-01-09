@@ -3,6 +3,8 @@ import luxe.Color;
 import luxe.components.sprite.SpriteAnimation;
 import luxe.Entity;
 import luxe.Input;
+import luxe.resource.Resource.AudioResource;
+import luxe.Audio.AudioHandle;
 import luxe.Audio;
 import luxe.Sprite;
 import luxe.States;
@@ -13,11 +15,13 @@ import phoenix.Texture;
 class Main extends luxe.Game
 {
 
-    var rush_loop:Audio;
-    var rush_intro:Audio;
-    var rush_ending:Audio;
+    var musicRushLoop:AudioResource;
+    var musicRushIntro:AudioResource;
+    var musicRushEnding:AudioResource;
+    
+    var musicHandle:AudioHandle;
 
-    var music_muted:Bool = false;
+    var musicMuted:Bool = false;
 
     var machine:States;
 
@@ -54,21 +58,23 @@ class Main extends luxe.Game
         _config.preload.textures.push({ id:'assets/images/lightmask.png' });
         _config.preload.textures.push({ id:'assets/images/puff.gif' });
 
-
+        /*
 
         // Sounds
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Explosion.ogg', /*name:'bomb',*/ is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Grab_Box.ogg', /*name:'pickup',*/ is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Throw_Crate.ogg', /*name:'throw',*/ is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Jump.ogg', /*name:'jump',*/ is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/cruncher_die.ogg', /*name:'cruncher_die',*/ is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/crate_break.ogg', /*name:'create',*/ is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/start.ogg', /*name:'start',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Explosion.ogg', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Grab_Box.ogg', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Throw_Crate.ogg', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Jump.ogg', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/cruncher_die.ogg', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/crate_break.ogg', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/start.ogg', is_stream:false });
 
         // Music
-        _config.preload.sounds.push({ id:'assets/music/Rush_Intro.ogg', /*name:'rush_intro',*/ is_stream:true });
-        _config.preload.sounds.push({ id:'assets/music/Rush_Ending.ogg', /*name:'rush_ending',*/ is_stream:true });
-        _config.preload.sounds.push({ id:'assets/music/Go_Get_Her.ogg', /*name:'rush_loop',*/ is_stream:true });
+        _config.preload.sounds.push({ id:'assets/music/musicRushIntro.ogg', is_stream:true });
+        _config.preload.sounds.push({ id:'assets/music/musicRushEnding.ogg', is_stream:true });
+        _config.preload.sounds.push({ id:'assets/music/Go_Get_Her.ogg', is_stream:true });
+
+        */
 
         // Shaders
         _config.preload.shaders.push({
@@ -115,6 +121,11 @@ class Main extends luxe.Game
         init_audio();
 
     } //ready
+    
+    function startLoop(_) {
+        Luxe.audio.loop(musicRushLoop.source);
+        Luxe.audio.off(ae_end, startLoop);
+    }
 
     function init_events()
     {
@@ -136,61 +147,49 @@ class Main extends luxe.Game
 
         // player pressed start in main menu
         Luxe.events.listen('state.menu.start_game', function(_){
-            // stop everything just in case
-            rush_ending.stop();
-            rush_loop.stop();
-            rush_intro.stop();
+            // stop music just in case
+            Luxe.audio.stop(musicHandle);
         });
 
         // player enters the Game State
         Luxe.events.listen('game.init', function(_){
             // stop everything just in case
-            rush_intro.play();
-            rush_intro.on('end', start_loop);
+            Luxe.audio.stop(musicHandle);
+            Luxe.audio.play(musicRushIntro.source);
+            Luxe.audio.on(ae_end, startLoop);
         });
 
         Luxe.events.listen('game.over.*', function(_){
-            rush_loop.stop();
-            rush_intro.off('end', start_loop);
+            Luxe.audio.stop(musicHandle);
+            Luxe.audio.off(ae_end, startLoop);
         });
 
         Luxe.events.listen('game.over.gal', function(_){
-            rush_loop.stop();
-            rush_intro.stop();
-            rush_ending.stop();
-
-            rush_ending.play();
-
+            Luxe.audio.stop(musicHandle);
+            Luxe.audio.play(musicRushEnding.source);
         });
-    }
-
-    function start_loop(_)
-    {
-        rush_loop.loop();
-        //Luxe.audio.loop('rush_loop');
-        rush_intro.off('end', start_loop);
-        //Luxe.audio.off('rush_intro', 'end', start_loop);
     }
 
     function init_audio()
     {
-        Luxe.audio.on("rush_ending", "load", function(e){
-            rush_ending = e;
-            rush_ending.volume = 0.2;
-        });
+        // Luxe.audio.on("musicRushEnding", "load", function(e){
+        //     musicRushEnding = e;
+        //     musicRushEnding.volume = 0.2;
+        // });
         
-        Luxe.audio.on("rush_intro", "load", function(e){
-            rush_intro = e;
-            rush_intro.volume = 0.2;
-        });
+        // Luxe.audio.on("musicRushIntro", "load", function(e){
+        //     musicRushIntro = e;
+        //     musicRushIntro.volume = 0.2;
+        // });
         
-        Luxe.audio.on("rush_loop", "load", function(e){
-            rush_loop = e;
-            rush_loop.volume = 0.33;
-        });
+        // Luxe.audio.on("musicRushLoop", "load", function(e){
+        //     musicRushLoop = e;
+        //     musicRushLoop.volume = 0.33;
+        // });
+        
+        Luxe.audio.volume(musicHandle, 0.2);
 
-        // Luxe.audio.play('rush_ending');
-        rush_ending.play();
+        musicHandle = Luxe.audio.loop(musicRushEnding.source);
     }
 
     override function onkeyup( e:KeyEvent ) {
@@ -201,10 +200,11 @@ class Main extends luxe.Game
 
         // MUTE Music
         if(e.keycode == Key.key_m) {
-            music_muted = !music_muted;
-            Luxe.audio.volume("rush_intro", (music_muted)?0:0.2 );
-            Luxe.audio.volume("rush_ending", (music_muted)?0:0.2 );
-            Luxe.audio.volume("rush_loop", (music_muted)?0:0.33 );
+            musicMuted = !musicMuted;
+            Luxe.audio.volume(
+                musicHandle,
+                Luxe.audio.volume_of(musicHandle) > 0 ? 0 : 0.2
+            );
         }
 
     } //onkeyup
@@ -236,7 +236,7 @@ class Main extends luxe.Game
 
 class GameOverState extends State {
 
-    public function new()
+    override public function new()
     {
         super({ name:'gameover' });
     }

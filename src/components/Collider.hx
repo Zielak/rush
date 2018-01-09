@@ -32,6 +32,7 @@ class Collider extends Component {
 
     override public function new(options:ColliderOptions)
     {
+        super(options);
 
         options.name = 'collider';
 
@@ -50,8 +51,6 @@ class Collider extends Component {
         }else{
             offset = new Vector();
         }
-
-        super(options);
 
     }
 

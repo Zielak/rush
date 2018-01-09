@@ -18,8 +18,8 @@ import snow.api.Timer;
 
 class Game extends State {
 
-    public static inline var width:Int = 160;
-    public static inline var height:Int = 144;
+    public inline static var width:Int = 160;
+    public inline static var height:Int = 144;
 
     var player:Player;
     var lightmask:Sprite;
@@ -82,8 +82,7 @@ class Game extends State {
     public static var distance:Float = 0;
 
     public static var direction:Direction = right;
-    public static function directional_vector():Vector
-    {
+    public static function directional_vector():Vector {
         var _vec:Vector = new Vector(speed,0);
         // trace('---------------before and after--------------');
         // trace(Game.direction.getName());
@@ -98,9 +97,9 @@ class Game extends State {
         return _vec.clone();
     }
 
-    public function new(options:GameOptions)
+    override public function new(options:GameOptions)
     {
-        super({ name:'game' });
+        super('game');
 
         Game.gal_mult = options.gal_mult;
         Game.hope_mult = options.hope_mult;
@@ -416,7 +415,6 @@ class Game extends State {
     }
 }
 
-
 enum GameType {
     endless;
     classic;
@@ -433,7 +431,6 @@ typedef GameEvent = {
     @:optional var gal_distance:Float;
     @:optional var hope:Float;
     @:optional var difficulty:Float;
-
 }
 
 typedef GameOptions = {
