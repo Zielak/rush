@@ -9,41 +9,38 @@ import luxe.Visual;
 import luxe.Vector;
 import snow.api.Timer;
 
-class DestroyByTime extends Component
-{
+class DestroyByTime extends Component {
 
-    var time:Float;
+  var time:Float;
 
-    override public function new( options:DestroyByTimeOptions )
-    {
-        super(options);
-        
-        time = options.time;
+  override public function new (options:DestroyByTimeOptions) {
+    super(options);
 
-        options.name = 'destroybytime';
+    time = options.time;
 
-        Luxe.timer.schedule(time, killme);
+    options.name = 'destroybytime';
+
+    Luxe.timer.schedule(time, killme);
+  }
+
+  function killme() {
+
+    // entity.events.fire('destroy.bytime');
+    entity.destroy();
+
+    var _vis:Visual = cast(entity, Visual);
+    if (_vis != null) {
+      if (_vis.geometry != null) {
+        _vis.geometry.drop();
+      }
     }
-
-    function killme()
-    {
-
-        // entity.events.fire('destroy.bytime');
-        entity.destroy();
-
-        var _vis:Visual = cast(entity, Visual);
-        if( _vis != null ){
-            if( _vis.geometry != null ){
-                _vis.geometry.drop();
-            }
-        }
-        entity = null;
-    }
+    entity = null;
+  }
 
 }
 
 typedef DestroyByTimeOptions = {
-    > ComponentOptions,
+  > ComponentOptions,
 
-    var time:Float;
+  var time:Float;
 }

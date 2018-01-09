@@ -12,168 +12,167 @@ import luxe.Vector;
 class CrateHolder extends Component {
 
 
-    public static inline var GRAB_RANGE:Float = 10;
-    public static inline var THROW_SPEED:Float = 120;
-    public static inline var POS_X:Float = 0;
-    public static inline var POS_Y:Float = -3;
+  public static inline var GRAB_RANGE:Float = 10;
+  public static inline var THROW_SPEED:Float = 120;
+  public static inline var POS_X:Float = 0;
+  public static inline var POS_Y:Float = -3;
 
-    @:isVar public var holding (default, null):Bool;
-    @:isVar public var crate (default, null):Crate;
+  @:isVar public var holding(default, null):Bool;
+  @:isVar public var crate(default, null):Crate;
 
-    var cd:Float = 0;
-    var cd_max:Float = 0.2;
+  var cd:Float = 0;
+  var cd_max:Float = 0.2;
 
-    var crates:Array<Entity>;
+  var crates:Array<Entity>;
 
-    var _player:Vector;
-    var _v:Vector;
+  var _player:Vector;
+  var _v:Vector;
 
 
-    override function init()
-    {
+  override function init() {
 
-        holding = false;
-        crate = null;
-        _player = new Vector();
-        _v = new Vector();
+    holding = false;
+    crate = null;
+    _player = new Vector();
+    _v = new Vector();
 
-        entity.events.listen('input.Bpressed', function(e:CrateHolderEvents)
-        {
-            // Wait, am I holding anything?
-            if(holding){
-                // trace('throw_away(e.direction)');
-                throw_away(e.direction);
-            }
-        });
+    entity.events.listen('input.Bpressed', function(e:CrateHolderEvents) {
+      // Wait, am I holding anything?
+      if (holding) {
+        // trace('throw_away(e.direction)');
+        throw_away(e.direction);
+      }
+    });
+  }
+
+  override function ondestroy() {
+    _player = null;
+    _v = null;
+  }
+
+  override function update(dt:Float) {
+    // Keep held crate over player's head
+
+    if (holding) {
+      // trace('update crate pos');
+      crate.pos.x = entity.pos.x + POS_X;
+      crate.pos.y = entity.pos.y + POS_Y;
+    }
+    else {
+      // Try grabbing whenever we're walking
+      try_grabbing();
     }
 
-    override function ondestroy()
-    {
-        _player = null;
-        _v = null;
+    if (cd > 0) {
+      cd -= dt;
+    }
+  }
+
+  function try_grabbing() {
+    // Can't grab when holding
+    // and can't grab too fast
+    if (holding || cd > 0) {
+      return;
     }
 
-    override function update(dt:Float)
-    {
-        // Keep held crate over player's head
+    var crates = new Array<Entity>();
+    // Get all, then closest, then check range
+    Game.scene.get_named_like('crate', crates);
 
-        if(holding)
-        {
-            // trace('update crate pos');
-            crate.pos.x = entity.pos.x + POS_X;
-            crate.pos.y = entity.pos.y + POS_Y;
-        }
-        else
-        {
-            // Try grabbing whenever we're walking
-            try_grabbing();
-        }
+    if (crates.length > 0) {
+      _player.copy_from(entity.pos);
+      for (c in crates) {
+        // Check distance
+        _v = Vector.Subtract(_player, c.pos);
 
-        if(cd > 0){
-            cd -= dt;
+        if (_v.length <= GRAB_RANGE) {
+
+          if (c.has('crate_flying')) {
+            continue;
+          }
+
+          grab(c);
+          break;
         }
+      }
+
     }
 
-    function try_grabbing()
-    {
-        // Can't grab when holding
-        // and can't grab too fast
-        if(holding || cd > 0) return;
+  }
 
-        var crates = new Array<Entity>();
-        // Get all, then closest, then check range
-        Game.scene.get_named_like('crate', crates);
+  function grab(c:Entity) {
+    if (holding) {
+      return;
+    }
+    holding = true;
 
-        if(crates.length > 0)
-        {
-            _player.copy_from( entity.pos );
-            for(c in crates)
-            {
-                // Check distance
-                _v = Vector.Subtract(_player, c.pos);
+    cd = cd_max;
 
-                if(_v.length <= GRAB_RANGE){
+    crate = cast(c, Crate);
 
-                    if(c.has('crate_flying')) continue;
+    Luxe.audio.pitch('pickup', Math.random()*0.2 + 0.9);
+    Luxe.audio.play('pickup');
 
-                    grab(c);
-                    break;
-                }
-            }
-            
-        }
+    entity.events.fire('crate.grab');
+    Luxe.events.fire('player.grab.crate');
+  }
 
-    } 
+  function throw_away(direction:Vector) {
+    // trace('throw_away() dir: ${direction}');
+    if (!holding) {
+      return;
+    }
+    // trace('holding: ${holding}');
 
-    function grab(c:Entity)
-    {
-        if(holding) return;
-        holding = true;
-
-        cd = cd_max;
-
-        crate = cast(c, Crate);
-
-        Luxe.audio.pitch('pickup', Math.random()*0.2 + 0.9 );
-        Luxe.audio.play('pickup');
-
-        entity.events.fire('crate.grab');
-        Luxe.events.fire('player.grab.crate');
+    if (direction.length == 0 && Game.speed == 0) {
+      direction.x = -1;
     }
 
-    function throw_away(direction:Vector)
-    {
-        // trace('throw_away() dir: ${direction}');
-        if(!holding) return;
-        // trace('holding: ${holding}');
+    direction = direction.normalize();
+    direction.multiplyScalar(THROW_SPEED);
 
-        if(direction.length == 0 && Game.speed == 0) direction.x = -1;
+    if (direction.length < 1) {
+      direction = Game.directional_vector().normalize().multiplyScalar(THROW_SPEED);
+    }
 
-        direction = direction.normalize();
-        direction.multiplyScalar(THROW_SPEED);
+    direction.x += Game.directional_vector().x;
+    direction.y += Game.directional_vector().y;
 
-        if(direction.length < 1){
-            direction = Game.directional_vector().normalize().multiplyScalar(THROW_SPEED);
-        }
+    Luxe.events.fire('spawn.puff', {pos: entity.pos.clone()});
 
-        direction.x += Game.directional_vector().x;
-        direction.y += Game.directional_vector().y;
-
-        Luxe.events.fire('spawn.puff', {pos: entity.pos.clone()});
-
-        crate.add( new Movement({
-            name: 'movement',
-            velocity: direction,
-        }));
-        crate.add( new DestroyByDistance({
-            name: 'distance',
-            distance: 200,
-        }));
-        crate.add( new PuffEmitter({name:'puff_emitter'}));
-        crate.add( new CrateFlying({name:'crate_flying'}));
-        crate.add( new Collider({
-            testAgainst: ['cruncher', 'bomb'],
-            size: new Vector(12,12),
-        }) );
-        
-
-        // I should be just forgetting about this entity
-        // and not removing it. Let it fly!!
-        // crate = null;
-        holding = false;
+    crate.add(new Movement({
+      name: 'movement',
+      velocity: direction,
+    }));
+    crate.add(new DestroyByDistance({
+      name: 'distance',
+      distance: 200,
+    }));
+    crate.add(new PuffEmitter({name:'puff_emitter'}));
+    crate.add(new CrateFlying({name:'crate_flying'}));
+    crate.add(new Collider({
+      testAgainst: ['cruncher', 'bomb'],
+      size: new Vector(12, 12),
+    }));
 
 
-        Luxe.audio.pitch('throw', Math.random()*0.2 + 0.9);
-        Luxe.audio.play('throw');
+    // I should be just forgetting about this entity
+    // and not removing it. Let it fly!!
+    // crate = null;
+    holding = false;
 
 
-        entity.events.fire('crate.throw_away');
-        Luxe.events.fire('player.throw.crate');
+    Luxe.audio.pitch('throw', Math.random()*0.2 + 0.9);
+    Luxe.audio.play('throw');
 
-    } 
+
+    entity.events.fire('crate.throw_away');
+    Luxe.events.fire('player.throw.crate');
+
+  }
 
 }
 
 typedef CrateHolderEvents = {
-    var direction:Vector;
+  var direction:Vector;
 }

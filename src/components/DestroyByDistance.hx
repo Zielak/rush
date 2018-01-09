@@ -9,46 +9,42 @@ import luxe.Sprite;
 import luxe.Vector;
 import snow.api.Timer;
 
-class DestroyByDistance extends Component
-{
+class DestroyByDistance extends Component {
 
-    public var distance:Float;
-    var _dist:Float;
+  public var distance:Float;
+  var _dist:Float;
 
-    var timer:Timer;
+  var timer:Timer;
 
-    var _v:Vector;
+  var _v:Vector;
 
-    override public function new( options:DestroyByDistanceOptions )
-    {
-        super(options);
-        
-        distance = options.distance;
+  override public function new (options:DestroyByDistanceOptions) {
+    super(options);
 
-        timer = Luxe.timer.schedule(0.5, step, true);
+    distance = options.distance;
+
+    timer = Luxe.timer.schedule(0.5, step, true);
+  }
+
+  function step() {
+    _v = Vector.Subtract(entity.pos, Luxe.camera.center);
+
+    if (_v.length > distance) {
+      // entity.events.fire('destroy.bydistance');
+      // trace('${entity.name} destroyed');
+      timer.stop();
+      timer = null;
+      _v = null;
+      this.entity.destroy();
+      entity = null;
     }
-
-    function step()
-    {
-        _v = Vector.Subtract( entity.pos, Luxe.camera.center );
-
-        if(_v.length > distance)
-        {
-            // entity.events.fire('destroy.bydistance');
-            // trace('${entity.name} destroyed');
-            timer.stop();
-            timer = null;
-            _v = null;
-            this.entity.destroy();
-            entity = null;
-        }
-    }
+  }
 
 
 }
 
 typedef DestroyByDistanceOptions = {
-    > ComponentOptions,
+  > ComponentOptions,
 
-    var distance:Float;
+  var distance:Float;
 }
