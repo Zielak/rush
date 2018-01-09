@@ -1,4 +1,3 @@
-
 import components.Movement;
 import enemies.Gal;
 import luxe.Entity;
@@ -97,8 +96,6 @@ class Game extends State {
         }
         // trace(_vec);
         return _vec.clone();
-
-        
     }
 
     public function new(options:GameOptions)

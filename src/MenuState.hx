@@ -1,5 +1,5 @@
 import luxe.Rectangle;
-import luxe.Sound;
+import luxe.Audio;
 import luxe.States;
 import luxe.Color;
 import luxe.components.sprite.SpriteAnimation;
@@ -26,7 +26,7 @@ class MenuState extends State {
     var showing_help:Bool;
     var input_wait:Bool;
 
-    var s_start:Sound;
+    var s_start:Audio;
 
     public function new()
     {

@@ -3,5 +3,8 @@
     [
       "bin/web.build/build.hxml"
     ]
-  ]
+  ],
+  "astyle.additional_languages": ["haxe"],
+  "astyle.cmd_options": [ "--mode=cs", "-f", "-U", "-Y", "-o", "-xe", "-xg", "-xL", "-S", "-t", "-xj", "-xt1", "-xW", "-z2" ]
+
 }

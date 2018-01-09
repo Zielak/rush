@@ -1,10 +1,9 @@
-
-import luxe.AppConfig;
+import luxe.GameConfig;
 import luxe.Color;
 import luxe.components.sprite.SpriteAnimation;
 import luxe.Entity;
 import luxe.Input;
-import luxe.Sound;
+import luxe.Audio;
 import luxe.Sprite;
 import luxe.States;
 import luxe.Timer;
@@ -14,9 +13,9 @@ import phoenix.Texture;
 class Main extends luxe.Game
 {
 
-    var rush_loop:Sound;
-    var rush_intro:Sound;
-    var rush_ending:Sound;
+    var rush_loop:Audio;
+    var rush_intro:Audio;
+    var rush_ending:Audio;
 
     var music_muted:Bool = false;
 
@@ -24,7 +23,7 @@ class Main extends luxe.Game
 
     var shader:Entity;
 
-    override public function config( _config:AppConfig ) : luxe.AppConfig{
+    override public function config( _config:GameConfig ) : luxe.GameConfig{
 
         // Screens
         _config.preload.textures.push({ id:'assets/images/faderBlack.gif' });
@@ -58,18 +57,18 @@ class Main extends luxe.Game
 
 
         // Sounds
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Explosion.ogg', name:'bomb', is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Grab_Box.ogg', name:'pickup', is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Throw_Crate.ogg', name:'throw', is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/Rush_Jump.ogg', name:'jump', is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/cruncher_die.ogg', name:'cruncher_die', is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/crate_break.ogg', name:'create', is_stream:false });
-        _config.preload.sounds.push({ id:'assets/sounds/start.ogg', name:'start', is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Explosion.ogg', /*name:'bomb',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Grab_Box.ogg', /*name:'pickup',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Throw_Crate.ogg', /*name:'throw',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/Rush_Jump.ogg', /*name:'jump',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/cruncher_die.ogg', /*name:'cruncher_die',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/crate_break.ogg', /*name:'create',*/ is_stream:false });
+        _config.preload.sounds.push({ id:'assets/sounds/start.ogg', /*name:'start',*/ is_stream:false });
 
         // Music
-        _config.preload.sounds.push({ id:'assets/music/Rush_Intro.ogg', name:'rush_intro', is_stream:true });
-        _config.preload.sounds.push({ id:'assets/music/Rush_Ending.ogg', name:'rush_ending', is_stream:true });
-        _config.preload.sounds.push({ id:'assets/music/Go_Get_Her.ogg', name:'rush_loop', is_stream:true });
+        _config.preload.sounds.push({ id:'assets/music/Rush_Intro.ogg', /*name:'rush_intro',*/ is_stream:true });
+        _config.preload.sounds.push({ id:'assets/music/Rush_Ending.ogg', /*name:'rush_ending',*/ is_stream:true });
+        _config.preload.sounds.push({ id:'assets/music/Go_Get_Her.ogg', /*name:'rush_loop',*/ is_stream:true });
 
         // Shaders
         _config.preload.shaders.push({
@@ -85,8 +84,6 @@ class Main extends luxe.Game
         Luxe.renderer.clear_color = new Color().rgb(C.c1);
         Luxe.camera.zoom = 4;
         Luxe.camera.pos.set_xy( -Game.width*1.5, -Game.height*1.5 );
-
-        
 
         // Machines
         machine = new States({ name:'statemachine' });
