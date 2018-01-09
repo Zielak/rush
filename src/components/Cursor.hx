@@ -64,9 +64,8 @@ class Cursor extends Component {
 }
 
 typedef CursorOptions = {
-
   > ComponentOptions,
+
   var batcher:Batcher;
   var depth:Float;
-
 }

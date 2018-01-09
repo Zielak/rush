@@ -38,8 +38,6 @@ class Immortal extends luxe.Component {
     }
   }
 
-
-
 }
 
 typedef ImmortalOptions = {

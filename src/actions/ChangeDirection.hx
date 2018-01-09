@@ -3,6 +3,7 @@ package actions;
 import Action.ActionOptions;
 import luxe.tween.Actuate;
 import luxe.Vector;
+import Game;
 
 class ChangeDirection extends Action {
 

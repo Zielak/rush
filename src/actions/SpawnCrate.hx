@@ -3,6 +3,7 @@ package actions;
 import Action.ActionOptions;
 import enemies.Crate;
 import luxe.Vector;
+import Game;
 
 class SpawnCrate extends Action {
 

@@ -4,8 +4,8 @@ package components;
 import luxe.Component;
 import luxe.options.ComponentOptions;
 import luxe.Rectangle;
-
 import luxe.Vector;
+import Game;
 
 class Movement extends Component {
 

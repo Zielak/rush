@@ -9,6 +9,7 @@ import luxe.options.ComponentOptions;
 import luxe.Sprite;
 import snow.api.Timer;
 import luxe.Vector;
+import Game;
 
 class Collider extends Component {
 
@@ -159,17 +160,16 @@ class Collider extends Component {
 }
 
 
-
 typedef ColliderOptions = {
-    > ComponentOptions,
+  > ComponentOptions,
 
-    @:optional var offset:Vector;
+  @:optional var offset:Vector;
   @:optional var size:Vector;
   @:optional var testAgainst:Array<String>;
-
+}
 
 typedef ColliderEvent = {
-    var coldata:ShapeCollision;
+  var coldata:ShapeCollision;
   @:optional var target:Entity;
   @:optional var name:String;
-
+}

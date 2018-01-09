@@ -76,9 +76,9 @@ class Blinking extends luxe.Component {
 }
 
 typedef BlinkingOptions = {
-    > ComponentOptions,
+  > ComponentOptions,
 
-    var time_on:Float;
+  var time_on:Float;
   var time_off:Float;
   @:optional var remove_after:Float;
-
+}

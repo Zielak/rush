@@ -3,7 +3,7 @@ package enemies;
 import luxe.options.ComponentOptions;
 import luxe.options.SpriteOptions;
 import luxe.Rectangle;
-import luxe.Sound;
+import luxe.Audio;
 import enemies.Enemy.SoundProp;
 import luxe.Sprite;
 import luxe.Vector;
@@ -61,10 +61,10 @@ class Cruncher extends Enemy {
     }
     events.listen('collision.hit', function(_) {
       var sp:SoundProp = get_sound_prop();
-      Luxe.audio.pitch('cruncher_die', Math.random()*0.4 + 0.8);
-      Luxe.audio.pan('cruncher_die', sp.pan);
-      Luxe.audio.volume('cruncher_die', sp.volume * s_death_vol);
-      Luxe.audio.play('cruncher_die');
+      // Luxe.audio.pitch('cruncher_die', Math.random()*0.4 + 0.8);
+      // Luxe.audio.pan('cruncher_die', sp.pan);
+      // Luxe.audio.volume('cruncher_die', sp.volume * s_death_vol);
+      // Luxe.audio.play('cruncher_die');
 
       destroy();
     });

@@ -8,6 +8,7 @@ import luxe.Component;
 import luxe.Entity;
 import luxe.Audio;
 import luxe.Vector;
+import Game;
 
 class CrateHolder extends Component {
 
@@ -110,8 +111,8 @@ class CrateHolder extends Component {
 
     crate = cast(c, Crate);
 
-    Luxe.audio.pitch('pickup', Math.random()*0.2 + 0.9);
-    Luxe.audio.play('pickup');
+    // Luxe.audio.pitch('pickup', Math.random()*0.2 + 0.9);
+    // Luxe.audio.play('pickup');
 
     entity.events.fire('crate.grab');
     Luxe.events.fire('player.grab.crate');
@@ -162,8 +163,8 @@ class CrateHolder extends Component {
     holding = false;
 
 
-    Luxe.audio.pitch('throw', Math.random()*0.2 + 0.9);
-    Luxe.audio.play('throw');
+    // Luxe.audio.pitch('throw', Math.random()*0.2 + 0.9);
+    // Luxe.audio.play('throw');
 
 
     entity.events.fire('crate.throw_away');

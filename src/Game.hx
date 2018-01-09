@@ -102,7 +102,7 @@ class Game extends State {
   }
 
   override public function new (options:GameOptions) {
-    super('game');
+    super({name: 'game'});
 
     Game.gal_mult = options.gal_mult;
     Game.hope_mult = options.hope_mult;

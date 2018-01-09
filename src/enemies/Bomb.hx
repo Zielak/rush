@@ -6,7 +6,7 @@ import luxe.options.ComponentOptions;
 import luxe.options.SpriteOptions;
 import luxe.Rectangle;
 import luxe.Sprite;
-import luxe.Sound;
+import luxe.Audio;
 import luxe.Vector;
 
 class Bomb extends Enemy {
@@ -59,10 +59,10 @@ class Bomb extends Enemy {
     }
     events.listen('collision.hit', function(_) {
       var sp:SoundProp = get_sound_prop();
-      Luxe.audio.pitch('bomb', Math.random()*0.4 + 0.8);
-      Luxe.audio.pan('bomb', sp.pan);
-      Luxe.audio.volume('bomb', sp.volume * s_death_vol);
-      Luxe.audio.play('bomb');
+      // Luxe.audio.pitch('bomb', Math.random()*0.4 + 0.8);
+      // Luxe.audio.pan('bomb', sp.pan);
+      // Luxe.audio.volume('bomb', sp.volume * s_death_vol);
+      // Luxe.audio.play('bomb');
 
       destroy();
     });

@@ -4,7 +4,7 @@ package ;
 import components.Collider;
 import components.CrateHolder;
 import luxe.Rectangle;
-import luxe.Sound;
+import luxe.Audio;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;
@@ -344,8 +344,8 @@ class Player extends Sprite {
     }
 
 
-    Luxe.audio.pitch('jump', Math.random()*0.2 + 0.9);
-    Luxe.audio.play('jump');
+    // Luxe.audio.pitch('jump', Math.random()*0.2 + 0.9);
+    // Luxe.audio.play('jump');
 
     Luxe.events.fire('spawn.puff', {
       pos: pos.clone(),

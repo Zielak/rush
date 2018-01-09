@@ -30,8 +30,6 @@ class SpawnCruncher extends Action {
 
     cruncher.add(new components.DestroyByDistance({distance: 200}));
 
-
-
     // Set Vector speeds and direction
     var _v:Vector = Game.directional_vector();
     if (spawn_type == front) {
@@ -58,10 +56,7 @@ class SpawnCruncher extends Action {
 }
 
 typedef SpawnCruncherOptions = {
-    > ActionOptions,
+  > ActionOptions,
 
-    @:optional var spawn_type:SpawnPlace;
-
-
-
-
+  @:optional var spawn_type:SpawnPlace;
+}
