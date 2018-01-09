@@ -1,0 +1,7 @@
+{
+  "haxe.displayConfigurations": [
+    [
+      "bin/web.build/build.hxml"
+    ]
+  ]
+}
