@@ -6,63 +6,59 @@ import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;
 
-class Puff extends Sprite
-{
-    
-    var anim:SpriteAnimation;
+class Puff extends Sprite {
 
-    override public function new(options:SpriteOptions)
-    {
-        options.name = 'puff';
-        options.name_unique = true;
-        options.texture = Luxe.resources.texture('assets/images/puff.gif');
-        options.size = new Vector(16,16);
-        options.centered = true;
-        options.depth = 4;
+  var anim:SpriteAnimation;
 
-        super(options);
+  override public function new (options:SpriteOptions) {
+    options.name = 'puff';
+    options.name_unique = true;
+    options.texture = Luxe.resources.texture('assets/images/puff.gif');
+    options.size = new Vector(16, 16);
+    options.centered = true;
+    options.depth = 4;
 
-        this.texture.filter_mag = nearest;
-        this.texture.filter_min = nearest;
-    }
+    super(options);
 
-    override function init()
-    {
-        anim = new SpriteAnimation({ name:'anim' });
-        add( anim );
+    this.texture.filter_mag = nearest;
+    this.texture.filter_min = nearest;
+  }
 
-        var animation_json = '
-            {
-                "idle" : {
-                    "frame_size":{ "x":"16", "y":"16" },
-                    "frameset": ["1-8"],
-                    "loop": "false",
-                    "speed": "12"
-                }
-            }
-        ';
+  override function init() {
+    anim = new SpriteAnimation({ name:'anim' });
+    add(anim);
 
-        anim.add_from_json( animation_json );
-        anim.animation = 'idle';
-        anim.play();
-        anim.speed = 12 + Math.random()*12;
+    var animation_json = '
+                         {
+                           "idle" : {
+                             "frame_size": { "x":"16", "y":"16" },
+                             "frameset": ["1-8"],
+                             "loop": "false",
+                             "speed": "12"
+                           }
+                         }
+                         ';
 
-        // anim.add_event('idle',8,'puff.ends');
+                         anim.add_from_json(animation_json);
+    anim.animation = 'idle';
+    anim.play();
+    anim.speed = 12 + Math.random()*12;
 
-        // this.events.listen('puff.ends', function(_){
-        //     this.destroy();
-        // });
+    // anim.add_event('idle',8,'puff.ends');
 
-        Luxe.timer.schedule(0.5, function(){
-            this.destroy();
-        });
+    // this.events.listen('puff.ends', function(_){
+    //     this.destroy();
+    // });
 
-    }
+    Luxe.timer.schedule(0.5, function() {
+      this.destroy();
+    });
 
-    override function ondestroy()
-    {
-        anim = null;
-        super.ondestroy();
-    }
+  }
+
+  override function ondestroy() {
+    anim = null;
+    super.ondestroy();
+  }
 
 }

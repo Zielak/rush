@@ -1,10 +1,25 @@
 {
+  "editor.tabSize": 2,
   "haxe.displayConfigurations": [
     [
       "bin/web.build/build.hxml"
     ]
   ],
   "astyle.additional_languages": ["haxe"],
-  "astyle.cmd_options": [ "--mode=cs", "-f", "-U", "-Y", "-o", "-xe", "-xg", "-xL", "-S", "-t", "-xj", "-xt1", "-xW", "-z2" ]
-
+  "astyle.cmd_options": [
+    "--mode=cs",
+    "--style=java",
+    "--lineend=linux",
+    "--add-braces",
+    "--attach-closing-while",
+    "--break-closing-braces",
+    "--keep-one-line-statements",
+    "--indent-col1-comments",
+    "--indent-preproc-block",
+    "--indent=spaces=2",
+    "--indent-switches",
+    "--pad-comma",
+    "--pad-header",
+    "--unpad-paren"
+  ]
 }
