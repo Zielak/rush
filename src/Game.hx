@@ -135,7 +135,7 @@ class Game extends State {
       e.destroy();
     }
 
-    // Luxe.camera.pos.set_xy( -Game.width*1.5, -Game.height*1.5 );
+    Luxe.camera.pos.set_xy(0, 0);
   }
 
   override function onenter<T>(_:T) {
@@ -178,7 +178,7 @@ class Game extends State {
     Game.delayed = false;
 
 
-    Luxe.camera.pos.set_xy(-Game.width*1.5, -Game.height*1.5);
+    Luxe.camera.pos.set_xy(0, 0);
     _realCamPos.copy_from(Luxe.camera.pos);
 
     // random.seed = Math.random();
@@ -209,7 +209,7 @@ class Game extends State {
       name_unique: true,
       texture: Luxe.resources.texture('assets/images/player.gif'),
       size: new Vector(16, 16),
-      pos: new Vector(160/2, 144/2),
+      pos: Luxe.camera.center.clone(),
       centered: true,
       depth: 10,
       scene: Game.scene,

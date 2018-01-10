@@ -95,7 +95,7 @@ class Main extends luxe.Game {
 
     Luxe.renderer.clear_color = new Color().rgb(C.c1);
     Luxe.camera.zoom = 3;
-    Luxe.camera.pos.set_xy(-Game.width*1.5, -Game.height*1.5);
+    Luxe.camera.pos.set_xy(0, 0);
 
     // Machines
     machine = new States({ name:'statemachine' });

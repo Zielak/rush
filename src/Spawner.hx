@@ -525,8 +525,8 @@ class Spawner extends Entity {
           continue;
         }
 
-        _x = x * Tile.TILE_SIZE;
-        _y = y * Tile.TILE_SIZE;
+        _x = Luxe.camera.pos.x + x * Tile.TILE_SIZE;
+        _y = Luxe.camera.pos.y + y * Tile.TILE_SIZE;
 
         new Tile({
           pos: new Vector(_x, _y),

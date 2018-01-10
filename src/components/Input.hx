@@ -103,7 +103,7 @@ class Input extends Component {
 
   }
 
-
+  // TODO: unused.
   function updateAim() {
     var p1:Vector = Luxe.camera.screen_point_to_world(Luxe.screen.cursor.pos);
     var p2:Vector = entity.pos;

@@ -26,13 +26,13 @@ class IntroState extends State {
   override function onenter<T>(_:T) {
 
     Luxe.renderer.clear_color = new Color().rgb(C.c1);
-    Luxe.camera.pos.set_xy(-Game.width*1.5, -Game.height*1.5);
+    Luxe.camera.pos.set_xy(0, 0);
 
     timer = new Timer(Luxe.core);
 
     gbjam_logo = new Sprite({
       texture: Luxe.resources.texture('assets/images/intro_gbjam.gif'),
-      pos: new Vector(Luxe.camera.center.x-0.5, Luxe.camera.center.y),
+      pos: new Vector(Luxe.camera.center.x, Luxe.camera.center.y),
       depth: 2,
     });
     gbjam_logo.texture.filter_mag = gbjam_logo.texture.filter_min = FilterType.nearest;

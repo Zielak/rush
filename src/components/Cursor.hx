@@ -48,8 +48,9 @@ class Cursor extends Component {
   override function update(dt:Float) {
     mouse_pos.copy_from(Luxe.screen.cursor.pos);
     sprite.pos.copy_from(mouse_pos);
-    sprite.pos.x = Math.floor(sprite.pos.x / Luxe.camera.zoom) + 0.5;
-    sprite.pos.y = Math.floor(sprite.pos.y / Luxe.camera.zoom) + 0.5;
+    sprite.pos.divideScalar(Luxe.camera.zoom);
+    sprite.pos.x = Math.floor(sprite.pos.x);
+    sprite.pos.y = Math.floor(sprite.pos.y);
   }
 
   // Let's see how it goes...
