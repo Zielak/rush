@@ -143,7 +143,6 @@ class Player extends Sprite {
 
                          anim.add_from_json(animation_json);
     anim.animation = 'walk';
-    anim.play();
 
 
     crateHolder = new CrateHolder({name:'crate_holder'});
@@ -390,7 +389,7 @@ class Player extends Sprite {
     }
     else if (all_velocity.length >= 0.2) {
       // set anim speed
-      if (Game.speed < 0.5) {
+      if (Game.speed < 50) {
         anim.speed = 12;
       }
       else {
@@ -413,6 +412,9 @@ class Player extends Sprite {
   }
 
   function play_animation(_name:String) {
+    #if debug
+    return;
+    #end
     if (!anim.playing) {
       anim.play();
     }

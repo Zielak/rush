@@ -181,7 +181,7 @@ class Spawner extends Entity {
 
   function init_sequences() {
     if (!Game.tutorial) {
-      Actuate.tween(Game, 2, {speed:Game.SPEED_INIT});
+      Actuate.tween(Game, 2, {speed:Game.speed});
       populate_sequences();
       pick_sequence();
 
@@ -298,7 +298,7 @@ class Spawner extends Entity {
 
     // Speed
     actions.push(new actions.ChangeSpeed({
-      target_speed: Game.SPEED_INIT,
+      target_speed: Game.speed,
       delay: 1.5,
       smooth_time: 2,
     }));

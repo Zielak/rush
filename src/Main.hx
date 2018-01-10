@@ -11,6 +11,8 @@ import luxe.States;
 import luxe.Timer;
 import luxe.Vector;
 import phoenix.Texture;
+
+import components.LowresShader;
 import Game;
 
 class Main extends luxe.Game {
@@ -26,9 +28,10 @@ class Main extends luxe.Game {
   var machine:States;
 
   var shader:Entity;
+  var shaderComponent:LowresShader;
 
   override public function config(_config:GameConfig) : luxe.GameConfig {
-    
+
     _config.window.width = 640;
     _config.window.height = 576;
 
@@ -91,7 +94,7 @@ class Main extends luxe.Game {
   override function ready() {
 
     Luxe.renderer.clear_color = new Color().rgb(C.c1);
-    Luxe.camera.zoom = 4;
+    Luxe.camera.zoom = 3;
     Luxe.camera.pos.set_xy(-Game.width*1.5, -Game.height*1.5);
 
     // Machines
@@ -100,34 +103,35 @@ class Main extends luxe.Game {
     machine.add(new IntroState());
     machine.add(new MenuState());
     machine.add(new Game({
-      #if !debug
+#if !debug
       gal_mult: 0.0053,
       gal_distance_start: 0.95,
       hope_mult: 0.1,
       tutorial: true,
-      #else
+#else
       gal_mult: 0,
       gal_distance_start: 0.95,
       hope_mult: 0,
       tutorial: false,
-      #end
+#end
     }));
     // machine.add( new GameOverState() );
 
-    #if !debug
+#if !debug
     machine.set('intro');
-    #else
+#else
     machine.set('game');
-    #end
+#end
 
 
     shader = new Entity({
       name: 'entity',
     });
-    shader.add(new components.LowresShader({
+    shaderComponent = new LowresShader({
       name: 'lowres',
-      pixel_size: new Vector(Game.width/Luxe.camera.zoom, Game.height/Luxe.camera.zoom),
-    }));
+      pixel_size: new Vector(Game.width, Game.height),
+    });
+    shader.add(shaderComponent);
 
     init_events();
 

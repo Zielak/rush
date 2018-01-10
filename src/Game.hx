@@ -76,24 +76,20 @@ class Game extends State {
   public static var hope_mult:Float;
 
 
-  public static inline var SPEED_INIT:Float = 60;
-  public static var speed:Float = 60;
+  public static var speed:Float = 6000;
   // Distance travelled (what)
   public static var distance:Float = 0;
 
   public static var direction:Direction = right;
   public static function directional_vector():Vector {
-    var _vec:Vector = new Vector(speed, 0);
+    var _vec:Vector = new Vector(speed/100, 0);
     // trace('---------------before and after--------------');
     // trace(Game.direction.getName());
     // trace(_vec);
     switch (Game.direction) {
       case Direction.right: _vec.angle2D = 0;
-
       case Direction.down:  _vec.angle2D = Math.PI/2;
-
       case Direction.left:  _vec.angle2D = Math.PI;
-
       case Direction.up:    _vec.angle2D = 3*Math.PI/2;
     }
 
@@ -322,7 +318,7 @@ class Game extends State {
     if (Game.playing && !Game.delayed || Game.gal_game_over) {
       if (!Game.tutorial) {
         Game.hope -= dt * (Game.hope_mult * (Game.difficulty*0.5));
-        Game.distance += Game.speed * dt;
+        Game.distance += Game.speed * (dt*100);
         Game.gal_distance -= dt * Game.gal_mult;
       }
       else {
@@ -332,7 +328,7 @@ class Game extends State {
 
       Game.time += dt;
 
-      _realCamPos.x += Game.directional_vector().x * dt;
+      _realCamPos.x += Game.directional_vector().x * dt; // :S
       _realCamPos.y += Game.directional_vector().y * dt;
 
       _camTravelled += Game.directional_vector().length * dt;
