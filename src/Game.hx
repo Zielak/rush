@@ -208,7 +208,6 @@ class Game extends State {
 
 
   function create_player() {
-
     player = new Player({
       name: 'player',
       name_unique: true,
@@ -390,7 +389,7 @@ class Game extends State {
   // HAXXX
   override public function onkeydown(event:KeyEvent) {
     if (event.keycode == Key.key_h) {
-      // Game.hope = 1;
+      Game.hope = 1;
     }
 
     if (event.keycode == Key.key_p) {

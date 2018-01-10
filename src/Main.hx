@@ -100,15 +100,25 @@ class Main extends luxe.Game {
     machine.add(new IntroState());
     machine.add(new MenuState());
     machine.add(new Game({
+      #if !debug
       gal_mult: 0.0053,
       gal_distance_start: 0.95,
       hope_mult: 0.1,
       tutorial: true,
+      #else
+      gal_mult: 0,
+      gal_distance_start: 0.95,
+      hope_mult: 0,
+      tutorial: false,
+      #end
     }));
     // machine.add( new GameOverState() );
 
+    #if !debug
+    machine.set('intro');
+    #else
     machine.set('game');
-
+    #end
 
 
     shader = new Entity({
