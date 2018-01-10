@@ -70,7 +70,7 @@ class Tile extends Sprite {
     this.uv.x = tile_id * TILE_SIZE;
 
     add(new DestroyByDistance({
-      name: 'distance',
+      name: 'tile',
       distance: 160,
     }));
   }

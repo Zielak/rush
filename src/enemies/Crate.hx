@@ -59,13 +59,11 @@ class Crate extends Enemy {
       return;
     }
     events.listen('collision.hit', function(e:ColliderEvent) {
-      /*
-      var sp:SoundProp = get_sound_prop();
-      Luxe.audio.pitch('crate', Math.random()*0.4 + 0.8);
-      Luxe.audio.pan('crate', sp.pan);
-      Luxe.audio.volume('crate', sp.volume * s_death_vol);
-      Luxe.audio.play('crate');
-      */
+      // var sp:SoundProp = get_sound_prop();
+      // Luxe.audio.pitch('crate', Math.random()*0.4 + 0.8);
+      // Luxe.audio.pan('crate', sp.pan);
+      // Luxe.audio.volume('crate', sp.volume * s_death_vol);
+      // Luxe.audio.play('crate');
 
       Luxe.events.fire('crate.hit.enemy');
 

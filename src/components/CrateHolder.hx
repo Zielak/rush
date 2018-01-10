@@ -146,7 +146,7 @@ class CrateHolder extends Component {
       velocity: direction,
     }));
     crate.add(new DestroyByDistance({
-      name: 'distance',
+      name: 'crate',
       distance: 200,
     }));
     crate.add(new PuffEmitter({name:'puff_emitter'}));

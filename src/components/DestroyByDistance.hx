@@ -19,23 +19,28 @@ class DestroyByDistance extends Component {
   var _v:Vector;
 
   override public function new (options:DestroyByDistanceOptions) {
+    options.name = (options.name == null) ? options.name + 'Distance' : 'distance';
     super(options);
 
     distance = options.distance;
-
     timer = Luxe.timer.schedule(0.5, step, true);
   }
 
   function step() {
+    if(entity.destroyed){
+      trace('I shouldnt be running!');
+      return;
+    }
     _v = Vector.Subtract(entity.pos, Luxe.camera.center);
 
     if (_v.length > distance) {
       // entity.events.fire('destroy.bydistance');
       // trace('${entity.name} destroyed');
+      _v = null;
       timer.stop();
       timer = null;
-      _v = null;
-      this.entity.destroy();
+      trace('Destroying!' + this.entity.name);
+      entity.destroy();
       entity = null;
     }
   }

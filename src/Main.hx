@@ -28,6 +28,9 @@ class Main extends luxe.Game {
   var shader:Entity;
 
   override public function config(_config:GameConfig) : luxe.GameConfig {
+    
+    _config.window.width = 640;
+    _config.window.height = 576;
 
     // Screens
     _config.preload.textures.push({ id:'assets/images/faderBlack.gif' });
@@ -104,7 +107,7 @@ class Main extends luxe.Game {
     }));
     // machine.add( new GameOverState() );
 
-    machine.set('intro');
+    machine.set('game');
 
 
 
@@ -123,8 +126,8 @@ class Main extends luxe.Game {
   } //ready
 
   function startLoop(_) {
-    Luxe.audio.loop(musicRushLoop.source);
-    Luxe.audio.off(ae_end, startLoop);
+    // Luxe.audio.loop(musicRushLoop.source);
+    // Luxe.audio.off(ae_end, startLoop);
   }
 
   function init_events() {
@@ -147,25 +150,25 @@ class Main extends luxe.Game {
     // player pressed start in main menu
     Luxe.events.listen('state.menu.start_game', function(_) {
       // stop music just in case
-      Luxe.audio.stop(musicHandle);
+      // Luxe.audio.stop(musicHandle);
     });
 
     // player enters the Game State
     Luxe.events.listen('game.init', function(_) {
       // stop everything just in case
-      Luxe.audio.stop(musicHandle);
-      Luxe.audio.play(musicRushIntro.source);
-      Luxe.audio.on(ae_end, startLoop);
+      // Luxe.audio.stop(musicHandle);
+      // Luxe.audio.play(musicRushIntro.source);
+      // Luxe.audio.on(ae_end, startLoop);
     });
 
     Luxe.events.listen('game.over.*', function(_) {
-      Luxe.audio.stop(musicHandle);
-      Luxe.audio.off(ae_end, startLoop);
+      // Luxe.audio.stop(musicHandle);
+      // Luxe.audio.off(ae_end, startLoop);
     });
 
     Luxe.events.listen('game.over.gal', function(_) {
-      Luxe.audio.stop(musicHandle);
-      Luxe.audio.play(musicRushEnding.source);
+      // Luxe.audio.stop(musicHandle);
+      // Luxe.audio.play(musicRushEnding.source);
     });
   }
 
@@ -185,9 +188,9 @@ class Main extends luxe.Game {
     //     musicRushLoop.volume = 0.33;
     // });
 
-    Luxe.audio.volume(musicHandle, 0.2);
+    // Luxe.audio.volume(musicHandle, 0.2);
 
-    musicHandle = Luxe.audio.loop(musicRushEnding.source);
+    // musicHandle = Luxe.audio.loop(musicRushEnding.source);
   }
 
   override function onkeyup(e:KeyEvent) {
@@ -199,10 +202,10 @@ class Main extends luxe.Game {
     // MUTE Music
     if (e.keycode == Key.key_m) {
       musicMuted = !musicMuted;
-      Luxe.audio.volume(
-        musicHandle,
-        Luxe.audio.volume_of(musicHandle) > 0 ? 0 : 0.2
-      );
+      // Luxe.audio.volume(
+      //   musicHandle,
+      //   Luxe.audio.volume_of(musicHandle) > 0 ? 0 : 0.2
+      // );
     }
 
   } //onkeyup
