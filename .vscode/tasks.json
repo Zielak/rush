@@ -4,27 +4,62 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Web with watcher",
-      "command": "flow",
-      "args": [
-        "run",
-        "web",
-        "--timeout 0"
-      ],
-      "problemMatcher": "$haxe"
-    },
-    {
-      "label": "Rebuild",
+      "label": "Build",
+      "type": "shell",
       "command": "flow",
       "args": [
         "build",
         "web"
       ],
-      "problemMatcher": "$haxe",
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "problemMatcher": [
+        "$haxe"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent"
       }
+    },
+    {
+      "label": "Run Web with testpage",
+      "type": "shell",
+      "command": "flow",
+      "args": [
+        "run",
+        "web",
+        "--timeout",
+        "0"
+      ],
+      "group": "build",
+      "problemMatcher": [
+        "$haxe"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent"
+      }
+    },
+    {
+      "label": "Haxe Cache Server",
+      "identifier": "cacheServer",
+      "command": "haxe",
+      "args": [
+        "-v",
+        "--wait",
+        "6000"
+      ],
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent"
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        "$haxe"
+      ]
     }
   ]
 }

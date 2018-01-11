@@ -19,7 +19,11 @@
     build: {
       dependencies: {
         luxe: '*'
-      }
+      },
+      flags: [
+        "--connect 6000",
+        "--times"
+      ]
       // defines: ['no_debug_console']
     },
 
