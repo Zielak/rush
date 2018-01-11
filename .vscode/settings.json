@@ -28,6 +28,7 @@
   "haxe.enableCodeLens": false,
   "haxe.displayPort": 6000,
   "haxe.displayServer": { // configuration for starting haxe completion server itself
-    "arguments": ["-v", "--times"], // arguments before --wait (-v is useful for debugging)
+    "arguments": ["-v"], // arguments before --wait (-v is useful for debugging)
+    // , "--times"
   }
 }
