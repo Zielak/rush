@@ -42,14 +42,47 @@
       }
     },
     {
-      "label": "Run Web with testpage",
-      "type": "shell",
-      "command": "flow",
+      "label": "Tespage --debug",
+      "command": "fast-live-reload",
       "args": [
-        "run",
-        "web",
-        "--timeout",
-        "0"
+        "-s", "bin/web/",
+        "-sp", "8090",
+        "-p", "8099",
+        "src/", "-e", "flow build web --debug"
+      ],
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "Tespage --debug",
+      "command": "fast-live-reload",
+      "args": [
+        "-s", "bin/web/",
+        "-sp", "9000",
+        "-p", "9010",
+        "src/", "-e", "flow build web --debug"
+      ],
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "Tespage",
+      "command": "fast-live-reload",
+      "args": [
+        "-s", "bin/web/",
+        "-sp", "9000",
+        "-p", "9010",
+        "src/", "-e", "flow build web"
       ],
       "group": "none",
       "problemMatcher": [],

@@ -16,7 +16,6 @@ class IntroState extends State {
 
   var fader:Sprite;
   var fader_anim:SpriteAnimation;
-
   var timer:Timer;
 
   public function new () {
