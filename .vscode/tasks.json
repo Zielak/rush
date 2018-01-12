@@ -42,13 +42,14 @@
       }
     },
     {
-      "label": "Tespage",
+      "label": "Testpage",
       "command": "fast-live-reload",
       "args": [
         "-s", "bin/web/",
         "-sp", "8090",
         "-p", "8099",
-        "src/", "-e", "flow build web"
+        "src/", "-e", "flow build web",
+        "assets/", "-e", "flow build web"
       ],
       "group": "none",
       "problemMatcher": [],
@@ -59,7 +60,7 @@
       "isBackground": true
     },
     {
-      "label": "Tespage --debug",
+      "label": "Testpage --debug",
       "command": "fast-live-reload",
       "args": [
         "--interval", "50",
@@ -68,24 +69,6 @@
         "-p", "8099",
         "src/", "-e", "flow build web --debug",
         "assets/", "-e", "flow build web --debug"
-      ],
-      "group": "none",
-      "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "silent"
-      },
-      "isBackground": true
-    },
-    {
-      "label": "Tespage",
-      "command": "fast-live-reload",
-      "args": [
-        "-s", "bin/web/",
-        "-sp", "9000",
-        "-p", "9010",
-        "src/", "-e", "flow build web",
-        "assets/", "-e", "flow build web"
       ],
       "group": "none",
       "problemMatcher": [],
