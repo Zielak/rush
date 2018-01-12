@@ -15,14 +15,25 @@ Now go! Rush to your love!
 
 ## Dev notes
 
-Main dependency: luxeengine.com
-
 Project was prepared for work in VSCode. Use Haxe Extension Pack.
 Main build task targets web.
 
 ### Dependencies
 
+- `luxeengine.com` - game engine with renderer and other stuff
 - `fast-live-reload` - from NPM, get it globally.
+
+### Testpage
+
+After running task "Testpage" you'll get:
+
+- testpage hosted at `localhost:8090`
+- auto recompilation after you save the file
+- testpage auto refresh after the compilation finishes
+
+You can run testpage manually with:
+
+```fast-live-reload -s bin/web/ -sp 8090 -p 8099 src/ -e "flow build web --debug"```
 
 ### Code formatting
 

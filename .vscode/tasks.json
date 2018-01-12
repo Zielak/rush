@@ -42,13 +42,13 @@
       }
     },
     {
-      "label": "Tespage --debug",
+      "label": "Tespage",
       "command": "fast-live-reload",
       "args": [
         "-s", "bin/web/",
         "-sp", "8090",
         "-p", "8099",
-        "src/", "-e", "flow build web --debug"
+        "src/", "-e", "flow build web"
       ],
       "group": "none",
       "problemMatcher": [],
@@ -63,8 +63,8 @@
       "command": "fast-live-reload",
       "args": [
         "-s", "bin/web/",
-        "-sp", "9000",
-        "-p", "9010",
+        "-sp", "8090",
+        "-p", "8099",
         "src/", "-e", "flow build web --debug"
       ],
       "group": "none",
