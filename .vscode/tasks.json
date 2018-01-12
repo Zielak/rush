@@ -62,6 +62,7 @@
       "label": "Tespage --debug",
       "command": "fast-live-reload",
       "args": [
+        "--interval", "50",
         "-s", "bin/web/",
         "-sp", "8090",
         "-p", "8099",
@@ -86,6 +87,19 @@
       ],
       "group": "none",
       "problemMatcher": [],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent"
+      },
+      "isBackground": true
+    },
+    {
+      "label": "Haxe Cache Server",
+      "command": "haxe",
+      "args": [
+        "-v", "--wait", "6010"
+      ],
+      "problemMatcher": ["$haxe"],
       "presentation": {
         "echo": true,
         "reveal": "silent"

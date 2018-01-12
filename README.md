@@ -23,6 +23,15 @@ Main build task targets web.
 - `luxeengine.com` - game engine with renderer and other stuff
 - `fast-live-reload` - from NPM, get it globally.
 
+### Haxe Cache servers
+
+There will be 2 haxe cache servers.
+
+1. Created by autocompletion haxe plugin at port `6000`.
+2. Created by you, with the task "Haxe Cache Server". Run it before compiling anything.
+
+> TODO: investigate if 2 servers instead of 1 are actually useful. Goal: non blocking completion&compilation.
+
 ### Testpage
 
 After running task "Testpage" you'll get:
