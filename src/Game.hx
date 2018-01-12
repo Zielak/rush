@@ -18,8 +18,10 @@ import snow.api.Timer;
 
 class Game extends State {
 
-  public inline static var width:Int = 160;
-  public inline static var height:Int = 144;
+  public inline static var screenWidth:Int = 642;
+  public inline static var screenHeight:Int = 576;
+  public inline static var width:Int = 214;
+  public inline static var height:Int = 192;
 
   var player:Player;
   var lightmask:Sprite;

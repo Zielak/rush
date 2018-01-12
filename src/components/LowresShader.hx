@@ -16,7 +16,7 @@ class LowresShader extends Component {
   var pixel_size:Vector;
   var color_ramp:Float = 1 / 10;
 
-  var enabled:Bool = false;
+  var enabled:Bool = true;
 
   var final_output : RenderTexture;
   var final_batch : Batcher;

@@ -32,8 +32,8 @@ class Main extends luxe.Game {
 
   override public function config(_config:GameConfig) : luxe.GameConfig {
 
-    _config.window.width = 640;
-    _config.window.height = 576;
+    _config.window.width = Game.screenWidth;
+    _config.window.height = Game.screenHeight;
 
     // Screens
     _config.preload.textures.push({ id:'assets/images/faderBlack.gif' });
@@ -129,7 +129,6 @@ class Main extends luxe.Game {
     });
     shaderComponent = new LowresShader({
       name: 'lowres',
-      pixel_size: new Vector(Game.width, Game.height),
     });
     shader.add(shaderComponent);
 

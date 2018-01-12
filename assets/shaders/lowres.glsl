@@ -4,10 +4,10 @@
 precision mediump float;
 #endif
 
-#define BRIGHTNESS 1.0
+#define BRIGHTNESS 1.
 
-#define SCREEN_WIDTH 160.
-#define SCREEN_HEIGHT 144.
+#define SCREEN_WIDTH 214.
+#define SCREEN_HEIGHT 192.
 
 
 varying vec4 color;

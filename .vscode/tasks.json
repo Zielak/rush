@@ -66,7 +66,8 @@
         "-s", "bin/web/",
         "-sp", "8090",
         "-p", "8099",
-        "src/", "-e", "flow build web --debug"
+        "src/", "-e", "flow build web --debug",
+        "assets/", "-e", "flow build web --debug"
       ],
       "group": "none",
       "problemMatcher": [],
@@ -83,7 +84,8 @@
         "-s", "bin/web/",
         "-sp", "9000",
         "-p", "9010",
-        "src/", "-e", "flow build web"
+        "src/", "-e", "flow build web",
+        "assets/", "-e", "flow build web"
       ],
       "group": "none",
       "problemMatcher": [],

@@ -64,8 +64,8 @@ class Hud extends Entity {
     camera = new Camera({
       camera_name: 'hud_camera',
     });
-    camera.zoom = 4;
-    camera.pos.set_xy(-Game.width*1.5, -Game.height*1.5);
+    camera.zoom = Luxe.camera.zoom;
+    camera.pos.set_xy(-Game.width, -Game.height);
 
     // Check if we don't already have our batcher
     for (b in Luxe.renderer.batchers) {
