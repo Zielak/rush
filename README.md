@@ -34,15 +34,17 @@ There will be 2 haxe cache servers.
 
 ### Testpage
 
+For some reason running testpage on Windows sucks balls. Run this in proper terminal instead:
+
+```
+fast-live-reload --interval 50 -s bin\web\ -sp 8090 src\ -e "flow build web --debug" assets\ -e "flow build web --debug"
+```
+
 After running task "Testpage" you'll get:
 
 - testpage hosted at `localhost:8090`
 - auto recompilation after you save the file
 - testpage auto refresh after the compilation finishes
-
-You can run testpage manually with:
-
-```fast-live-reload -s bin/web/ -sp 8090 -p 8099 src/ -e "flow build web --debug"```
 
 ### Code formatting
 

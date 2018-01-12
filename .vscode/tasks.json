@@ -3,90 +3,80 @@
   // for the documentation about the tasks.json format
   "version": "2.0.0",
   "tasks": [
-    {
-      "label": "Build --debug",
+    { "label": "Build --debug",
       "type": "shell",
-      "command": "flow",
-      "args": [
-        "build",
-        "web",
-        "--debug"
-      ],
+      "command": "flow build web --debug",
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": [
-        "$haxe"
-      ],
-      "presentation": {
-        "echo": true,
-        "reveal": "silent"
-      }
+      "problemMatcher": []
     },
-    {
-      "label": "Build",
+    { "label": "Build",
       "type": "shell",
-      "command": "flow",
-      "args": [
-        "build",
-        "web"
-      ],
+      "command": "flow build web",
       "group": "build",
-      "problemMatcher": [
-        "$haxe"
-      ],
-      "presentation": {
-        "echo": true,
-        "reveal": "silent"
-      }
+      "problemMatcher": []
     },
-    {
-      "label": "Testpage",
-      "command": "fast-live-reload",
-      "args": [
-        "-s", "bin/web/",
-        "-sp", "8090",
-        "-p", "8099",
-        "src/", "-e", "flow build web",
-        "assets/", "-e", "flow build web"
-      ],
+    { "label": "Testpage",
+      "type": "shell",
+      "command": "fast-live-reload --interval 50 -s bin/web/ -sp 8090 src/ -e \"flow build web\" assets/ -e \"flow build web\"",
+      "windows": {
+        "command": "fast-live-reload --interval 50 -s bin\\web\\ -sp 8090",
+        "args": [
+          "src\\", "-e", "\"flow build web\"",
+          "assets\\", "-e", "\"flow build web\""
+        ]
+      },
       "group": "none",
       "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "silent"
-      },
       "isBackground": true
     },
-    {
-      "label": "Testpage --debug",
+    { "label": "Testpage --debug",
       "command": "fast-live-reload",
-      "args": [
-        "--interval", "50",
-        "-s", "bin/web/",
-        "-sp", "8090",
-        "-p", "8099",
-        "src/", "-e", "flow build web --debug",
-        "assets/", "-e", "flow build web --debug"
-      ],
+      "type": "shell",
+      "osx": {
+        "args": [
+          "--interval", "50", "-s", "bin/web/", "-sp", "8090", "-p", "8099",
+          "src/", "-e", "flow build web --debug",
+          "assets/", "-e", "flow build web --debug"
+        ],
+      },
+      "linux": {
+        "args": [
+          "--interval", "50", "-s", "bin/web/", "-sp", "8090", "-p", "8099",
+          "src/", "-e", "flow build web --debug",
+          "assets/", "-e", "flow build web --debug"
+        ],
+      },
+      "windows": {
+        "command": "fast-live-reload --interval 50 -s bin\\web\\ -sp 8090 src\\ -e \"flow build web --debug\" assets\\ -e \"flow build web --debug\"",
+        "options": {
+          "shell": {
+            "executable": "C:\\WINDOWS\\System32\\cmd.exe",
+            "args": [
+              "/d", "/c"
+            ]
+          }
+        },
+        // "args": [
+        //   "--interval", "50", "-s", "bin\\web\\", "-sp", "8090", "-p", "8099",
+        //   "src\\", "-e", "\"flow build web --debug\"",
+        //   "assets\\", "-e", "\"flow build web --debug\""
+        // ],
+      },
       "group": "none",
       "problemMatcher": [],
-      "presentation": {
-        "echo": true,
-        "reveal": "silent"
-      },
       "isBackground": true
     },
-    {
-      "label": "Haxe Cache Server",
+    { "label": "Haxe Cache Server",
       "command": "haxe",
       "args": [
         "-v", "--wait", "6010"
       ],
       "problemMatcher": ["$haxe"],
       "presentation": {
-        "echo": true,
+        "echo": false,
         "reveal": "silent"
       },
       "isBackground": true
