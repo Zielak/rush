@@ -17,6 +17,7 @@ class Game extends State {
   public inline static var screenHeight:Int = 576;
   public inline static var width:Int = 214;
   public inline static var height:Int = 192;
+  public inline static var fixedDelta:Float = 1/60;
 
   var player:Player;
   var lightmask:Sprite;
@@ -114,7 +115,7 @@ class Game extends State {
     Game.drawer = new ShapeDrawerLuxe();
 
     _realCamPos = new Vector();
-    camTimer = Luxe.timer.schedule(1/60, update_camera, true);
+    // camTimer = Luxe.timer.schedule(1/60, update_camera, true);
   }
 
   override function onleave<T>(_:T) {
@@ -311,7 +312,8 @@ class Game extends State {
 
 
 
-  override function update(dt:Float) {
+  override function update(_) {
+    var dt:Float = fixedDelta;
     if (Game.playing && !Game.delayed || Game.gal_game_over) {
       if (!Game.tutorial) {
         Game.hope -= dt * (Game.hope_mult * (Game.difficulty*0.5));
@@ -367,6 +369,8 @@ class Game extends State {
         difficulty = 1;
       }
     }
+
+    update_camera();
 
     // Game.hope = Math.sin(Game.time/2)/2 + 0.5;
   }

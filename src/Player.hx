@@ -63,7 +63,6 @@ class Player extends Sprite {
     _all_velocity = new Vector(0, 0);
 
     realPos = pos.clone();
-    posTimer = Luxe.timer.schedule(1/60, update_pos, true);
 
     bounds = new Rectangle(
       SIZE/2,
@@ -145,6 +144,11 @@ class Player extends Sprite {
 
     Luxe.events.listen('game.move', function(vec) {
       game_v.copy_from(vec);
+
+      // Game velocity too
+      realPos.add(game_v);
+
+      // update_pos();
     });
 
     events.listen('collision.hit', function(_) {
@@ -224,9 +228,6 @@ class Player extends Sprite {
       // Apply
       realPos.add(velocity);
 
-      // Game velocity too
-      realPos.add(game_v);
-
       // Bounds
       if (realPos.x > bounds.x + bounds.w) {
         realPos.x = bounds.x + bounds.w;
@@ -243,6 +244,8 @@ class Player extends Sprite {
       if (realPos.y < bounds.y) {
         realPos.y = bounds.y;
       }
+
+      update_pos();
 
       // Animation
       set_animation();
@@ -268,8 +271,8 @@ class Player extends Sprite {
   function update_pos() {
     pos.copy_from(realPos);
     // pos = pos.int();
-    pos.x = Math.round(pos.x);
-    pos.y = Math.round(pos.y);
+    // pos.x = Math.round(pos.x);
+    // pos.y = Math.round(pos.y);
   }
 
 

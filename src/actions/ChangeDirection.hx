@@ -21,8 +21,6 @@ class ChangeDirection extends Action {
   }
 
   function change_direction() {
-    // trace('ChangeDirection.change_direction');
-
     var _d = Math.round(Math.random());
 
     switch (Game.direction) {
