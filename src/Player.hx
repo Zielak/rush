@@ -4,7 +4,7 @@ package ;
 import components.Collider;
 import components.CrateHolder;
 import luxe.Rectangle;
-import luxe.Audio;
+// import luxe.Audio;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;
@@ -73,16 +73,13 @@ class Player extends Sprite {
     );
 
     input = new Input({name: 'input'});
-
     add(input);
-
 
     collider = new Collider({
       testAgainst: ['cruncher', 'bomb'],
       size: new Vector(10, 10),
       offset: new Vector(0, 0),
     });
-
     add(collider);
 
     // add( new components.Immortal({
@@ -92,7 +89,6 @@ class Player extends Sprite {
     // Animation
 
     anim = new SpriteAnimation({ name:'anim' });
-
     add(anim);
 
     var animation_json = '
@@ -144,15 +140,14 @@ class Player extends Sprite {
                          anim.add_from_json(animation_json);
     anim.animation = 'walk';
 
-
     crateHolder = new CrateHolder({name:'crate_holder'});
-
     add(crateHolder);
 
-
+    Luxe.events.listen('game.move', function(vec) {
+      game_v.copy_from(vec);
+    });
 
     events.listen('collision.hit', function(_) {
-
       if (Game.gal_game_over) {
         return;
       }
@@ -171,7 +166,6 @@ class Player extends Sprite {
     });
 
     events.listen('galgameover', function(_) {
-
       realPos.y = Luxe.camera.center.y;
       realPos.x = Luxe.camera.center.x - 16;
       velocity.x = 0;
@@ -183,7 +177,6 @@ class Player extends Sprite {
 
       collider.enabled = true;
       dashing = false;
-
     });
 
 
@@ -199,8 +192,8 @@ class Player extends Sprite {
 
 
   override function update(dt:Float):Void {
-    if (Game.playing && !Game.delayed) {
 
+    if (Game.playing && !Game.delayed) {
 
       if (!dashing) {
         setSpeed(dt);
@@ -232,9 +225,6 @@ class Player extends Sprite {
       realPos.add(velocity);
 
       // Game velocity too
-      game_v.copy_from(Game.directional_vector());
-      game_v.x *= dt;
-      game_v.y *= dt;
       realPos.add(game_v);
 
       // Bounds
@@ -262,9 +252,6 @@ class Player extends Sprite {
       realPos.add(velocity);
 
       // Game velocity too
-      game_v.copy_from(Game.directional_vector());
-      game_v.x *= dt;
-      game_v.y *= dt;
       realPos.add(game_v);
 
       set_animation();

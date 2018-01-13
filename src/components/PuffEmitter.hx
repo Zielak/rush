@@ -28,7 +28,12 @@ class PuffEmitter extends Component {
   }
 
   function puff() {
-    Luxe.events.fire('spawn.puff', {pos: entity.pos, depth: sprite.depth });
+    var spawnOptions:Spawner.SpawnEvent = {
+      pos: entity.pos,
+      depth: sprite.depth,
+      velocity: Game.directional_vector()
+    };
+    Luxe.events.fire('spawn.puff', spawnOptions);
 
     cd = max_cd;
   }
@@ -39,4 +44,3 @@ class PuffEmitter extends Component {
   }
 
 }
-

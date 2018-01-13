@@ -1,16 +1,11 @@
 import luxe.GameConfig;
 import luxe.Color;
-import luxe.components.sprite.SpriteAnimation;
 import luxe.Entity;
 import luxe.Input;
 import luxe.resource.Resource.AudioResource;
-import luxe.Audio.AudioHandle;
-import luxe.Audio;
-import luxe.Sprite;
+// import luxe.Audio.AudioHandle;
+// import luxe.Audio;
 import luxe.States;
-import luxe.Timer;
-import luxe.Vector;
-import phoenix.Texture;
 
 import components.LowresShader;
 import Game;
@@ -21,7 +16,7 @@ class Main extends luxe.Game {
   var musicRushIntro:AudioResource;
   var musicRushEnding:AudioResource;
 
-  var musicHandle:AudioHandle;
+  // var musicHandle:AudioHandle;
 
   var musicMuted:Bool = false;
 

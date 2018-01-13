@@ -3,9 +3,7 @@ package components;
 
 import luxe.Component;
 import luxe.options.ComponentOptions;
-import luxe.Rectangle;
 
-import luxe.Sprite;
 import luxe.Vector;
 import snow.api.Timer;
 

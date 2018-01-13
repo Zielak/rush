@@ -5,7 +5,6 @@ import enemies.Crate;
 import luxe.Color;
 import luxe.Entity;
 import luxe.Rectangle;
-import luxe.Timer;
 import luxe.tween.Actuate;
 import luxe.Vector;
 import luxe.Visual;
@@ -118,7 +117,7 @@ class Spawner extends Entity {
       var _v:Vector = null;
 
       if (e.velocity != null) {
-        _v = e.velocity;
+        _v = e.velocity.clone();
       }
       else if (e.velocity == null && e.speed != null) {
         _v = new Vector(e.speed, 0);
@@ -145,7 +144,8 @@ class Spawner extends Entity {
           color: new Color(1, 1, 1, 1),
         }),
         depth: 12
-      });      flash.add(new components.DestroyByTime({time:0.1}));
+      });
+      flash.add(new components.DestroyByTime({time:0.1}));
 
     });
 
@@ -545,7 +545,6 @@ class Spawner extends Entity {
     var col:Bool = false;
     var count:Int;
 
-    var _w:Float;
     var _x:Float;
     var _y:Float;
 
@@ -610,7 +609,7 @@ class Spawner extends Entity {
 
   function spawn_crate() {
 
-    var crate:Crate = new Crate({
+    new Crate({
       pos: Spawner.pick_place(front),
       scene: Game.scene,
     });

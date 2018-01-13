@@ -1,19 +1,14 @@
-import components.Movement;
 import enemies.Gal;
 import luxe.Entity;
 import luxe.Input;
-import luxe.Color;
-import luxe.Rectangle;
 import luxe.Scene;
 import luxe.Sprite;
 import luxe.States;
 
 import luxe.collision.ShapeDrawerLuxe;
 import luxe.tween.Actuate;
-import luxe.utils.Maths;
 import luxe.utils.Random;
-import luxe.Vector;
-import phoenix.Texture;
+import phoenix.Vector;
 import snow.api.Timer;
 
 class Game extends State {
@@ -330,8 +325,12 @@ class Game extends State {
 
       Game.time += dt;
 
-      _realCamPos.x += Game.directional_vector().x * dt; // :S
-      _realCamPos.y += Game.directional_vector().y * dt;
+      var _v:Vector = Vector.Multiply(Game.directional_vector(), dt);
+
+      _realCamPos.x += _v.x; // :S
+      _realCamPos.y += _v.y;
+
+      Luxe.events.fire('game.move', _v.clone());
 
       _camTravelled += Game.directional_vector().length * dt;
 
