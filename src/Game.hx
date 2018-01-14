@@ -26,6 +26,7 @@ class Game extends State {
   var spawner:Spawner;
 
   var hud:Hud;
+  var debugger:Debugger;
 
   var _realCamPos:Vector;
   var _camTravelled:Float;
@@ -120,6 +121,7 @@ class Game extends State {
 
   override function onleave<T>(_:T) {
     hud.destroy();
+    debugger.destroy();
     player.destroy();
     lightmask.destroy();
     kill_events();
@@ -140,6 +142,7 @@ class Game extends State {
     reset();
 
     create_hud();
+    create_debugger();
     create_player();
     create_lightmask();
 
@@ -200,6 +203,11 @@ class Game extends State {
     });
   }
 
+  function create_debugger(){
+    debugger = new Debugger({
+      name: 'debugger',
+    });
+  }
 
   function create_player() {
     player = new Player({

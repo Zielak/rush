@@ -70,13 +70,11 @@ class Hud extends Entity {
     // Check if we don't already have our batcher
     for (b in Luxe.renderer.batchers) {
       if (b.name == 'hud_batcher') {
-        trace('found hud_batcher');
         hud_batcher = b;
       }
     }
 
     if (hud_batcher == null) {
-      trace('couldnt find hud_batcher');
       hud_batcher = Luxe.renderer.create_batcher({
         name : 'hud_batcher',
         layer : 5,
