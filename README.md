@@ -34,7 +34,13 @@ Project uses Haxe cache server to both compile the code and provide cod ecomplet
 For some reason running testpage on Windows sucks balls. Run this in proper terminal instead:
 
 ```
-fast-live-reload --interval 50 -s bin\web\ -sp 8090 src\ -e "flow build web --debug" assets\ -e "flow build web --debug"
+fast-live-reload --interval 50 -s bin/web/ -sp 8090 -p 8099 src/ -e "flow build web --debug" assets/ -e "flow build web --debug"
+```
+
+or for Windows:
+
+```
+fast-live-reload --interval 50 -s bin\web\ -sp 8090 -p 8099 src\ -e "flow build web --debug" assets\ -e "flow build web --debug"
 ```
 
 After running task "Testpage" you'll get:
