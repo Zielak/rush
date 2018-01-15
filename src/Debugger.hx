@@ -6,53 +6,50 @@ import phoenix.Vector;
 class Debugger extends Entity {
 
   var keyGroups:Array<DebugGroup>;
-  var keyMap:Array<KeySequence>;
+  var keyActions:Array<DebugAction>;
 
-  var lastStroke:KeyCombo;
   var currentGroup:DebugGroup;
-  var nextPossibleStrokes:Array<KeySequence>;
+  var nextPossibleStrokes:Array<DebugAction>;
 
   var text:Text;
 
   override public function new (options:Dynamic) {
     super(options);
-    trace('HELLO?');
 
-    lastStroke = null;
-
+    // TODO: maybe object struct? instead of 2 arrays...
     keyGroups = new Array<DebugGroup>();
-    keyMap = new Array<KeySequence>();
+    keyActions = new Array<DebugAction>();
 
     keyGroups.push({
       name: rendering,
-      keys: { key: Key.key_s, mod: [lshift] },
+      keys: { key: Key.key_s, mod: [shift] },
       event: 'rendering',
     });
     keyGroups.push({
       name: player,
-      keys: { key: Key.key_p, mod: [lshift] },
+      keys: { key: Key.key_p, mod: [shift] },
       event: 'player',
     });
     keyGroups.push({
       name: sequence,
-      keys: { key: Key.key_s, mod: [lshift] },
+      keys: { key: Key.key_s, mod: [shift] },
       event: 'sequence',
     });
 
 
     // Rendering
-    keyMap.push({
+    keyActions.push({
       group: rendering,
       name: 'Shader toggle',
-      keys: [],
+      keys: { key: Key.key_s },
       event: 'shader.toggle'
     });
 
     // Player
-    keyMap.push({
+    keyActions.push({
       group: player,
       name: 'Animations toggle',
-      keys: [],
+      keys: { key: Key.key_p },
       event: 'animations.toggle'
     });
 
@@ -76,29 +73,62 @@ class Debugger extends Entity {
   }
 
   override public function onkeydown(event:KeyEvent) {
-    trace('KEYDOWN');
     var currentStroke:KeyCombo = {
       key: event.keycode,
       mod: getKeyMods(event.mod)
     }
 
-    trace('text should have: '+keyComboToString(currentStroke));
+    // trace('text should have: ' + keyComboToString(currentStroke));
+    // trace(currentStroke);
     text.text = keyComboToString(currentStroke);
 
-    // Had something previously?
-    if (lastStroke != null) {
-
-    } else {
+    // Try to get a current group from the key combination
+    if(currentGroup == null){
       currentGroup = getGroupByKeys(currentStroke);
-      if(currentGroup == null){
-        return;
+      if(currentGroup != null){
+        trace(keyComboToString(currentStroke));
+        trace('remembering current group: '+currentGroup.name.getName());
       }
-      // Remember next possible strokes
-      // nextPossibleStrokes = 
-
-      lastStroke = currentGroup.keys;
+    } else {
+      // Find current strokes in current group
+      var currentAction:DebugAction = getActionFromGroup(currentGroup, currentStroke);
+      trace(keyComboToString(currentStroke));
+      if(currentAction != null){
+        fire(currentAction);
+      }else{
+        currentGroup = null;
+        trace('no match, forgetting group.');
+      }
     }
-
+  }
+  
+  function fire(action:DebugAction):Void {
+    var groupEvent:String = getGroupName(action.group).event;
+    var eventString = 'debug.'+groupEvent+'.'+action.event;
+    
+    trace('FIRE: '+eventString);
+    Luxe.events.fire('debug.'+groupEvent+'.'+action.event);
+  }
+  
+  function getGroupName(name:DebugGroupName):DebugGroup {
+    for (group in keyGroups) {
+      if(group.name == name) {
+        return group;
+      }
+    }
+    return null;
+  }
+  
+  function getActionByGroup(group:DebugGroupName):Array<DebugAction> {
+    var actions:Array<DebugAction> = [];
+    
+    for(a in keyActions){
+      if(a.group == group){
+        actions.push(a);
+      }
+    }
+    
+    return actions;
   }
 
   function getGroupByKeys(keys:KeyCombo):DebugGroup {
@@ -108,6 +138,18 @@ class Debugger extends Entity {
       }
       else {
         return group;
+      }
+    }
+    return null;
+  }
+  
+  function getActionFromGroup(group:DebugGroup, keys:KeyCombo):DebugAction {
+    for (action in keyActions) {
+      if (!compareKeyCombo(keys, action.keys)) {
+        continue;
+      }
+      else {
+        return action;
       }
     }
     return null;
@@ -123,6 +165,13 @@ class Debugger extends Entity {
     // Compare keys
     if (a.key != b.key) {
       return false;
+    }
+    // If any don't have `mod`, add just empty array
+    if (a.mod == null){
+      a.mod = [];
+    }
+    if (b.mod == null){
+      b.mod = [];
     }
     // Compare number of modifiers
     if (a.mod.length != b.mod.length) {
@@ -154,14 +203,14 @@ class Debugger extends Entity {
   function getKeyMods(mod:ModState):Array<KeyMods> {
     var arr = new Array<KeyMods>();
 
-    mod.lshift ? arr.push(lshift) : null;
-    mod.rshift ? arr.push(rshift) : null;
-    mod.lctrl ? arr.push(lctrl) : null;
-    mod.rctrl ? arr.push(rctrl) : null;
-    mod.lalt ? arr.push(lalt) : null;
-    mod.ralt ? arr.push(ralt) : null;
-    mod.lmeta ? arr.push(lmeta) : null;
-    mod.rmeta ? arr.push(rmeta) : null;
+    // mod.lshift ? arr.push(lshift) : null;
+    // mod.rshift ? arr.push(rshift) : null;
+    // mod.lctrl ? arr.push(lctrl) : null;
+    // mod.rctrl ? arr.push(rctrl) : null;
+    // mod.lalt ? arr.push(lalt) : null;
+    // mod.ralt ? arr.push(ralt) : null;
+    // mod.lmeta ? arr.push(lmeta) : null;
+    // mod.rmeta ? arr.push(rmeta) : null;
     mod.num ? arr.push(num) : null;
     mod.caps ? arr.push(caps) : null;
     mod.mode ? arr.push(mode) : null;
@@ -176,9 +225,13 @@ class Debugger extends Entity {
   function keyComboToString(keys:KeyCombo):String {
     var mods:String = '';
     for(mod in keys.mod) {
-      mods += mod.getName() + '';
+      mods += mod.getName() + ' ';
     }
-    return mods + Std.string(keys.key);
+    // if(keys.key == keys.mod[0]){
+    //   return mods;
+    // }else{
+      return mods + Key.name(keys.key);
+    // }
   }
 
 }
@@ -195,10 +248,10 @@ typedef DebugGroup = {
   event:String,
 }
 
-typedef KeySequence = {
+typedef DebugAction = {
   group:DebugGroupName,
   name:String,
-  keys:Array<KeyCombo>,
+  keys:KeyCombo,
   event:String,
 }
 
