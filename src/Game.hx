@@ -26,7 +26,7 @@ class Game extends State {
   var spawner:Spawner;
 
   var hud:Hud;
-  var debugger:Debugger;
+  var debugKeys:debug.KeyListener;
 
   var _realCamPos:Vector;
   var _camTravelled:Float;
@@ -121,7 +121,7 @@ class Game extends State {
 
   override function onleave<T>(_:T) {
     hud.destroy();
-    debugger.destroy();
+    debugKeys.destroy();
     player.destroy();
     lightmask.destroy();
     kill_events();
@@ -142,7 +142,7 @@ class Game extends State {
     reset();
 
     create_hud();
-    create_debugger();
+    create_debugKeys();
     create_player();
     create_lightmask();
 
@@ -203,9 +203,9 @@ class Game extends State {
     });
   }
 
-  function create_debugger(){
-    debugger = new Debugger({
-      name: 'debugger',
+  function create_debugKeys(){
+    debugKeys = new debug.KeyListener({
+      name: 'debugKeys',
     });
   }
 
@@ -252,7 +252,7 @@ class Game extends State {
       }
     }));
     game_events.push(Luxe.events.listen('game.hope.*', function(e:GameEvent) {
-      if (e.hope != null) {
+      if (e != null && e.hope != null) {
         Game.hope += e.hope;
       }
     }));
@@ -309,6 +309,14 @@ class Game extends State {
       trace('player.hit.gal !!');
       Actuate.tween(Game, 2, {speed:0});
       spawner.events.fire('sequence.gal');
+    }));
+
+    game_events.push(Luxe.events.listen('debug.game.pause', function(_){
+      Game.delayed = !Game.delayed;
+    }));
+
+    game_events.push(Luxe.events.listen('debug.game.hope.max', function(_){
+      Game.hope = 1;
     }));
   }
 
@@ -390,19 +398,6 @@ class Game extends State {
 
     if (Game.gal_game_over) {
       Luxe.camera.pos.x += 10;
-    }
-  }
-
-
-
-  // HAXXX
-  override public function onkeydown(event:KeyEvent) {
-    if (event.keycode == Key.key_h) {
-      Game.hope = 1;
-    }
-
-    if (event.keycode == Key.key_p) {
-      Game.delayed = !Game.delayed;
     }
   }
 

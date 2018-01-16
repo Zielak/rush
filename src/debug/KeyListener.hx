@@ -1,9 +1,11 @@
+package debug;
+
 import luxe.Entity;
 import luxe.Input;
 import luxe.Text;
 import phoenix.Vector;
 
-class Debugger extends Entity {
+class KeyListener extends Entity {
 
   var keyGroups:Array<DebugGroup>;
   var keyActions:Array<DebugAction>;
@@ -35,7 +37,25 @@ class Debugger extends Entity {
       keys: { key: Key.key_s, mod: [shift] },
       event: 'sequence',
     });
+    keyGroups.push({
+      name: game,
+      keys: { key: Key.key_g, mod: [shift] },
+      event: 'game',
+    });
 
+    // Game
+    keyActions.push({
+      group: game,
+      name: 'Pause/resume',
+      keys: { key: Key.key_p },
+      event: 'pause'
+    });
+    keyActions.push({
+      group: game,
+      name: 'Hope max',
+      keys: { key: Key.key_h },
+      event: 'hope.max'
+    });
 
     // Rendering
     keyActions.push({
@@ -49,7 +69,7 @@ class Debugger extends Entity {
     keyActions.push({
       group: player,
       name: 'Animations toggle',
-      keys: { key: Key.key_p },
+      keys: { key: Key.key_a },
       event: 'animations.toggle'
     });
 
@@ -101,15 +121,15 @@ class Debugger extends Entity {
       }
     }
   }
-  
+
   function fire(action:DebugAction):Void {
     var groupEvent:String = getGroupName(action.group).event;
     var eventString = 'debug.'+groupEvent+'.'+action.event;
     
     trace('FIRE: '+eventString);
-    Luxe.events.fire('debug.'+groupEvent+'.'+action.event);
+    Luxe.events.fire(eventString);
   }
-  
+
   function getGroupName(name:DebugGroupName):DebugGroup {
     for (group in keyGroups) {
       if(group.name == name) {
@@ -118,7 +138,7 @@ class Debugger extends Entity {
     }
     return null;
   }
-  
+
   function getActionByGroup(group:DebugGroupName):Array<DebugAction> {
     var actions:Array<DebugAction> = [];
     
@@ -142,7 +162,7 @@ class Debugger extends Entity {
     }
     return null;
   }
-  
+
   function getActionFromGroup(group:DebugGroup, keys:KeyCombo):DebugAction {
     for (action in keyActions) {
       if (!compareKeyCombo(keys, action.keys)) {
@@ -237,6 +257,7 @@ class Debugger extends Entity {
 }
 
 enum DebugGroupName {
+  game;
   player;
   sequence;
   rendering;

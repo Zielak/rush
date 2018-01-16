@@ -34,6 +34,8 @@ class Player extends Sprite {
   var velocity:Vector;
   var game_v:Vector;
 
+  var debugAnimate:Bool = true;
+
   @:isVar var all_velocity(get, null):Vector;
   var _all_velocity:Vector;
   function get_all_velocity():Vector {
@@ -142,6 +144,12 @@ class Player extends Sprite {
     crateHolder = new CrateHolder({name:'crate_holder'});
     add(crateHolder);
 
+    initEvents();
+
+  } //ready
+
+
+  function initEvents():Void {
     Luxe.events.listen('game.move', function(vec) {
       game_v.copy_from(vec);
 
@@ -183,7 +191,6 @@ class Player extends Sprite {
       dashing = false;
     });
 
-
     Luxe.events.listen('game.over.hope', function(_) {
       play_animation('death');
     });
@@ -191,8 +198,10 @@ class Player extends Sprite {
       play_animation('death');
     });
 
-  } //ready
-
+    Luxe.events.listen('debug.player.animations.toggle', function(_) {
+      debugAnimate = !debugAnimate;
+    });
+  }
 
 
   override function update(dt:Float):Void {
@@ -367,6 +376,9 @@ class Player extends Sprite {
   }
 
   function set_animation() {
+    if(!debugAnimate){
+      return;
+    }
     if (all_velocity.length < 0.2) {
       if (!crateHolder.holding) {
         play_animation('idle');
@@ -402,9 +414,9 @@ class Player extends Sprite {
   }
 
   function play_animation(_name:String) {
-    #if debug
-    return;
-    #end
+    if(!debugAnimate){
+      return;
+    }
     if (!anim.playing) {
       anim.play();
     }

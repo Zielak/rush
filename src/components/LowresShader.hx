@@ -49,7 +49,6 @@ class LowresShader extends Component {
 
   override function init() {
 
-
     /** This is where we will draw to, the render texture */
     final_output = new RenderTexture({
       id: 'rtt',
@@ -70,8 +69,6 @@ class LowresShader extends Component {
     // final_shader.set_float('pixel_w', pixel_size.x );
     // final_shader.set_float('pixel_h', pixel_size.y );
 
-
-
     final_view = new Sprite({
       centered : false,
       pos : new Vector(0, 0),
@@ -79,6 +76,11 @@ class LowresShader extends Component {
       texture : final_output,
       shader : final_shader,
       batcher : final_batch,
+    });
+
+    Luxe.events.listen('debug.rendering.shader.toggle', function(_){
+      enabled = !enabled;
+      final_view.visible = enabled;
     });
 
   }
@@ -124,16 +126,6 @@ class LowresShader extends Component {
   override function update(dt:Float) {
 
   }
-
-  #if debug
-  override public function onkeydown(event:KeyEvent) {
-    if(event.keycode == Key.key_i){
-      enabled = !enabled;
-      trace('enabled: ' + enabled);
-      final_view.visible = enabled;
-    }
-  }
-  #end
 
 }
 
