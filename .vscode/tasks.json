@@ -68,18 +68,6 @@
       "group": "none",
       "problemMatcher": [],
       "isBackground": true
-    },
-    { "label": "Haxe Cache Server",
-      "command": "haxe",
-      "args": [
-        "-v", "--wait", "6010"
-      ],
-      "problemMatcher": ["$haxe"],
-      "presentation": {
-        "echo": false,
-        "reveal": "silent"
-      },
-      "isBackground": true
     }
   ]
 }

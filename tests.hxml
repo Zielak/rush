@@ -1,5 +1,6 @@
--cp src
--cp test
--lib utest
 -main test.TestAll
+-js bin/web/test.js
+-cp src
+-lib utest
 -D utest
+--connect 6000

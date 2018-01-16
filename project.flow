@@ -34,7 +34,8 @@
         path: 'custom_index.html => index.html',
         template: 'project',
         not_listed: true
-      }
+      },
+      test: 'report.html'
     }
 
   }

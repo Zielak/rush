@@ -49,6 +49,14 @@ After running task "Testpage" you'll get:
 - auto recompilation after you save the file
 - testpage auto refresh after the compilation finishes
 
+## Unit testing
+
+Swap haxe configuration in VSCode to `tests.hxml` so completion will work in `test/` files.
+
+```haxe tests.hxml```
+
+Will compile the tests and output into `bin/web/` directory. Make sure you already built the testpage once, so that directory is populated with game files. While the testpage is running, just open `localhost:8090/report.html`.
+
 ## Code formatting
 
 Use astyle-extension for VSCode, you'll also need Astyle app on your device.
