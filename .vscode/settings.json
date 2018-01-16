@@ -2,7 +2,8 @@
   "editor.tabSize": 2,
   "haxe.displayConfigurations": [
     [
-      "bin/web.build/build.hxml"
+      "bin/web.build/build.hxml",
+      "tests.hxml"
     ]
   ],
   "astyle.additional_languages": ["haxe"],

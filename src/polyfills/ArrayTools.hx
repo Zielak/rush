@@ -42,7 +42,7 @@ class ArrayTools {
     return null;
   }
 
-  static public function find(arr:Array<Dynamic>, predicate:(Dynamic -> ?Int -> ?Array<Dynamic> -> Dynamic)):Dynamic {
+  static public function find<T>(arr:Array<T>, predicate:(T -> ?Int -> ?Array<T> -> Bool)):T {
     // 1. Let O be ? ToObject(this value).
     // if (this == null) {
     //   throw '"this" is null or not defined';
