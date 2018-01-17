@@ -19,52 +19,17 @@
       "problemMatcher": []
     },
     { "label": "Testpage",
+      "command": "haxe --run tasks.TestPage",
       "type": "shell",
-      "command": "fast-live-reload --interval 50 -s bin/web/ -sp 8090 src/ -e \"flow build web\" assets/ -e \"flow build web\"",
-      "windows": {
-        "command": "fast-live-reload --interval 50 -s bin\\web\\ -sp 8090",
-        "args": [
-          "src\\", "-e", "\"flow build web\"",
-          "assets\\", "-e", "\"flow build web\""
-        ]
-      },
+      "args": [""],
       "group": "none",
       "problemMatcher": [],
       "isBackground": true
     },
     { "label": "Testpage --debug",
-      "command": "fast-live-reload",
+      "command": "haxe --run tasks.TestPage",
       "type": "shell",
-      "osx": {
-        "args": [
-          "--interval", "50", "-s", "bin/web/", "-sp", "8090", "-p", "8099",
-          "src/", "-e", "flow build web --debug",
-          "assets/", "-e", "flow build web --debug"
-        ],
-      },
-      "linux": {
-        "args": [
-          "--interval", "50", "-s", "bin/web/", "-sp", "8090", "-p", "8099",
-          "src/", "-e", "flow build web --debug",
-          "assets/", "-e", "flow build web --debug"
-        ],
-      },
-      "windows": {
-        "command": "fast-live-reload --interval 50 -s bin\\web\\ -sp 8090 src\\ -e \"flow build web --debug\" assets\\ -e \"flow build web --debug\"",
-        "options": {
-          "shell": {
-            "executable": "C:\\WINDOWS\\System32\\cmd.exe",
-            "args": [
-              "/d", "/c"
-            ]
-          }
-        },
-        // "args": [
-        //   "--interval", "50", "-s", "bin\\web\\", "-sp", "8090", "-p", "8099",
-        //   "src\\", "-e", "\"flow build web --debug\"",
-        //   "assets\\", "-e", "\"flow build web --debug\""
-        // ],
-      },
+      "args": ["--debug"],
       "group": "none",
       "problemMatcher": [],
       "isBackground": true
