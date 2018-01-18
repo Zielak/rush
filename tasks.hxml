@@ -1,0 +1,3 @@
+-main tasks.TestPage
+-cpp bin/cpp/
+--connect 6000

@@ -35,13 +35,9 @@ class SpawnBomb extends Action {
 
   }
 
-
-
 }
-
 
 typedef SpawnBombOptions = {
   > ActionOptions,
-
   @:optional var pos:Vector;
 }

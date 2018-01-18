@@ -24,7 +24,7 @@ class KeyListener extends Entity {
 
     keyGroups.push({
       name: rendering,
-      keys: { key: Key.key_s, mod: [shift] },
+      keys: { key: Key.key_r, mod: [shift] },
       event: 'rendering',
     });
     keyGroups.push({
@@ -55,6 +55,14 @@ class KeyListener extends Entity {
       name: 'Hope max',
       keys: { key: Key.key_h },
       event: 'hope.max'
+    });
+
+    // Sequence
+    keyActions.push({
+      group: sequence,
+      name: 'Force Finish',
+      keys: { key: Key.key_f },
+      event: 'finish'
     });
 
     // Rendering

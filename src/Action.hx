@@ -9,7 +9,7 @@ class Action {
   // Wait for this action to finish?
   @:isVar public var wait(default, null):Bool = false;
 
-  // Did action fired?
+  // Did action fire?
   @:isVar public var fired(default, null):Bool = false;
 
   // Check if action is completely finished
@@ -71,8 +71,6 @@ class Action {
 }
 
 typedef ActionOptions = {
-
   var delay:Float;
-
   @:optional var wait:Bool;
 }

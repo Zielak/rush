@@ -57,6 +57,11 @@ class Sequence {
     // trace(' -  duration = ${duration}');
   }
 
+  /**
+   *  Update the sequence
+   *  @param dt - selta time
+   *  @return Bool wether this sequence finished or not yet
+   */
   public function update(dt:Float):Bool {
 
     if (!finished) {
