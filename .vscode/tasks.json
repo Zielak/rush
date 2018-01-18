@@ -33,6 +33,19 @@
       "group": "none",
       "problemMatcher": [],
       "isBackground": true
+    },
+    { "label": "Unit testing",
+      "command": "haxe tests.hxml",
+      "type": "shell",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": ["$haxe"],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      }
     }
   ]
 }
