@@ -64,6 +64,12 @@ class KeyListener extends Entity {
       keys: { key: Key.key_f },
       event: 'finish'
     });
+    keyActions.push({
+      group: sequence,
+      name: 'Pick next',
+      keys: { key: Key.key_n },
+      event: 'next'
+    });
 
     // Rendering
     keyActions.push({
@@ -212,6 +218,9 @@ class KeyListener extends Entity {
 
   function getActionFromGroup(group:DebugGroup, keys:KeyCombo):DebugAction {
     for (action in keyActions) {
+      if (action.group != group.name) {
+        continue;
+      }
       if (!compareKeyCombo(keys, action.keys)) {
         continue;
       }
