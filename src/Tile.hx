@@ -33,11 +33,12 @@ class Tile extends Sprite {
 
     super(options);
 
-    if (Math.round(Math.random()) > 0) {
-      this.rotation_z = 90;
-      // this.origin.x += 1;
-      this.origin.y -= 1;
-    }
+    // if (Math.round(Math.random()) > 0) {
+    //   this.rotation_z = 90;
+    //   this.origin.y -= 1;
+    // }
+    this.rotation_z = Math.round(Math.random()*360/90)*90;
+    // this.rotation_z = Math.random()*360;
 
     if (options.tile_id != null) {
       tile_id = options.tile_id;

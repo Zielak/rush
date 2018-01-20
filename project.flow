@@ -21,8 +21,7 @@
         luxe: '*'
       },
       flags: [
-        "--connect 6000",
-        "--times"
+        "--connect 6000"
       ]
       // defines: ['no_debug_console']
     },
