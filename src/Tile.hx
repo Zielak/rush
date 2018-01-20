@@ -7,7 +7,7 @@ import luxe.Vector;
 class Tile extends Sprite {
 
   public static inline var TILE_SIZE:Float = 16;
-  public static inline var TILES_COUNT:Int = 20;
+  public static inline var TILES_COUNT:Int = 32;
 
   var tile_id:Int = -1;
   // var tiles_x:Int;

@@ -11,8 +11,8 @@ import luxe.Visual;
 
 class Spawner extends Entity {
 
-  var tilespawn_density:Float;
-  var tilespawn_density_max:Float = 0.65;
+  var tilespawn_density:Float = 1;
+  var tilespawn_density_max:Float = 1; // 0.65;
 
   var sequences:Sequences;
 
@@ -90,7 +90,7 @@ class Spawner extends Entity {
     trace('SPAWNER: init');
     time = 0;
     next_crate_cd();
-    tilespawn_density = 0.3;
+    tilespawn_density = 1;
 
     init_events();
     init_sequences();
@@ -330,21 +330,22 @@ class Spawner extends Entity {
    * Populates the screen with new tiles. Probably one time use
    */
   function spam_tiles() {
-    // trace('spam tiles');
     var _x:Float = 0;
     var _y:Float = 0;
 
+    var x0:Int = -Math.floor(Game.width / Tile.TILE_SIZE / 2);
+    var y0:Int = -Math.floor(Game.height / Tile.TILE_SIZE / 2);
     var xm:Int = Math.floor(Game.width / Tile.TILE_SIZE) + 2;
     var ym:Int = Math.floor(Game.height / Tile.TILE_SIZE) + 2;
 
-    for (x in -1...xm) {
-      for (y in -1...ym) {
+    for (x in x0...xm) {
+      for (y in y0...ym) {
         if (Math.random() > tilespawn_density) {
           continue;
         }
 
-        _x = Luxe.camera.pos.x + x * Tile.TILE_SIZE;
-        _y = Luxe.camera.pos.y + y * Tile.TILE_SIZE;
+        _x = Luxe.camera.center.x + x * Tile.TILE_SIZE;
+        _y = Luxe.camera.center.y + y * Tile.TILE_SIZE;
 
         new Tile({
           pos: new Vector(_x, _y),
