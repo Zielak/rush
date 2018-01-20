@@ -34,8 +34,6 @@ class Player extends Sprite {
   var velocity:Vector;
   var game_v:Vector;
 
-  var debugAnimate:Bool = true;
-
   @:isVar var all_velocity(get, null):Vector;
   var _all_velocity:Vector;
   function get_all_velocity():Vector {
@@ -56,6 +54,9 @@ class Player extends Sprite {
   var collider:Collider;
   var anim:SpriteAnimation;
   var crateHolder:CrateHolder;
+
+  var debugAnimate:Bool = true;
+  var debugMouseFollow:Bool = false;
 
   override function init() {
     // fixed_rate = 1/60;
@@ -156,7 +157,7 @@ class Player extends Sprite {
       // Game velocity too
       realPos.add(game_v);
 
-      // update_pos();
+      update_pos();
     });
 
     events.listen('collision.hit', function(_) {
@@ -202,10 +203,21 @@ class Player extends Sprite {
       debugAnimate = !debugAnimate;
       debugAnimate ? anim.play() : anim.stop();
     });
+
+    Luxe.events.listen('debug_player.mouse.follow', function(_) {
+      debugMouseFollow = !debugMouseFollow;
+    });
+
+
   }
 
 
   override function update(dt:Float):Void {
+
+    if(debugMouseFollow) {
+      pos.copy_from(Luxe.camera.screen_point_to_world(Luxe.screen.cursor.pos));
+      return;
+    }
 
     if (Game.playing && !Game.delayed) {
 
@@ -232,7 +244,6 @@ class Player extends Sprite {
         throwCrateNow();
       }
 
-
       update_bounds();
 
       // Apply
@@ -254,11 +265,6 @@ class Player extends Sprite {
       if (realPos.y < bounds.y) {
         realPos.y = bounds.y;
       }
-
-      update_pos();
-
-      // Animation
-      set_animation();
     }
     else if (Game.gal_game_over) {
       // Apply
@@ -267,9 +273,10 @@ class Player extends Sprite {
       // Game velocity too
       realPos.add(game_v);
 
-      set_animation();
     }
 
+    update_pos();
+    set_animation();
     // draw_collider();
   }
 
@@ -280,9 +287,9 @@ class Player extends Sprite {
 
   function update_pos() {
     pos.copy_from(realPos);
-    // pos = pos.int();
-    // pos.x = Math.round(pos.x);
-    // pos.y = Math.round(pos.y);
+    pos = pos.int();
+    pos.x = Math.round(pos.x);
+    pos.y = Math.round(pos.y);
   }
 
 
@@ -377,7 +384,7 @@ class Player extends Sprite {
   }
 
   function set_animation() {
-    if(!debugAnimate){
+    if (!debugAnimate) {
       return;
     }
     if (all_velocity.length < 0.2) {
@@ -415,7 +422,7 @@ class Player extends Sprite {
   }
 
   function play_animation(_name:String) {
-    if(!debugAnimate){
+    if (!debugAnimate) {
       return;
     }
     if (!anim.playing) {

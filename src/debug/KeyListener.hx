@@ -90,7 +90,7 @@ class KeyListener extends Entity {
       group: player,
       name: 'Player on mouse',
       keys: { key: Key.key_m },
-      events: ['input.toggle', 'mouse.follow'],
+      event: 'mouse.follow',
     });
 
     initText();
