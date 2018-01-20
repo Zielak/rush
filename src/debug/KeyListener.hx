@@ -80,11 +80,23 @@ class KeyListener extends Entity {
       keys: { key: Key.key_a },
       event: 'animations.toggle'
     });
+    keyActions.push({
+      group: player,
+      name: 'Input toggle',
+      keys: { key: Key.key_i },
+      event: 'input.toggle',
+    });
+    keyActions.push({
+      group: player,
+      name: 'Player on mouse',
+      keys: { key: Key.key_m },
+      events: ['input.toggle', 'mouse.follow'],
+    });
 
     initText();
   }
 
-  function initText(){
+  function initText() {
     var hud_batcher = null;
     for (b in Luxe.renderer.batchers) {
       if (b.name == 'hud_batcher') {
@@ -111,36 +123,63 @@ class KeyListener extends Entity {
     text.text = keyComboToString(currentStroke);
 
     // Try to get a current group from the key combination
-    if(currentGroup == null){
+    if (currentGroup == null) {
       currentGroup = getGroupByKeys(currentStroke);
-      if(currentGroup != null){
-        trace(keyComboToString(currentStroke));
-        trace('remembering current group: '+currentGroup.name.getName());
+      if (currentGroup != null) {
+        // trace(keyComboToString(currentStroke));
+        // trace('remembering current group: '+currentGroup.name.getName());
       }
-    } else {
+    }
+    else {
       // Find current strokes in current group
       var currentAction:DebugAction = getActionFromGroup(currentGroup, currentStroke);
-      trace(keyComboToString(currentStroke));
-      if(currentAction != null){
+      // trace(keyComboToString(currentStroke));
+      if (currentAction != null) {
         fire(currentAction);
-      }else{
         currentGroup = null;
-        trace('no match, forgetting group.');
+      }
+      else {
+        currentGroup = null;
+        // trace('no match, forgetting group.');
       }
     }
   }
 
   function fire(action:DebugAction):Void {
+    if (!validateAction(action)) {
+      return;
+    }
+    var strings:Array<String> = (action.events != null && action.events.length > 0) ? action.events.copy() : [];
+    if (action.event != null) {
+      strings.push(action.event);
+    }
     var groupEvent:String = getGroupName(action.group).event;
-    var eventString = 'debug.'+groupEvent+'.'+action.event;
-    
-    trace('FIRE: '+eventString);
-    Luxe.events.fire(eventString);
+    var eventString:String;
+
+    for (s in strings) {
+      eventString = 'debug_'+groupEvent+'.'+s;
+      trace('FIRE: ' + eventString);
+      Luxe.events.fire(eventString);
+    }
+  }
+
+  function validateAction(action:DebugAction):Bool {
+    // has one of those `event` or `events`
+    if (action.event == null && action.events == null) {
+      throw 'action `${action.name}` must have either `event` or `events`';
+      return false;
+    }
+    if (action.event == null && action.events != null && action.events.length == 0) {
+      throw 'action `${action.name}` must have at least one string in `events` array';
+      return false;
+    }
+
+    return true;
   }
 
   function getGroupName(name:DebugGroupName):DebugGroup {
     for (group in keyGroups) {
-      if(group.name == name) {
+      if (group.name == name) {
         return group;
       }
     }
@@ -149,13 +188,13 @@ class KeyListener extends Entity {
 
   function getActionByGroup(group:DebugGroupName):Array<DebugAction> {
     var actions:Array<DebugAction> = [];
-    
-    for(a in keyActions){
-      if(a.group == group){
+
+    for (a in keyActions) {
+      if (a.group == group) {
         actions.push(a);
       }
     }
-    
+
     return actions;
   }
 
@@ -195,10 +234,10 @@ class KeyListener extends Entity {
       return false;
     }
     // If any don't have `mod`, add just empty array
-    if (a.mod == null){
+    if (a.mod == null) {
       a.mod = [];
     }
-    if (b.mod == null){
+    if (b.mod == null) {
       b.mod = [];
     }
     // Compare number of modifiers
@@ -252,13 +291,13 @@ class KeyListener extends Entity {
 
   function keyComboToString(keys:KeyCombo):String {
     var mods:String = '';
-    for(mod in keys.mod) {
+    for (mod in keys.mod) {
       mods += mod.getName() + ' ';
     }
     // if(keys.key == keys.mod[0]){
     //   return mods;
     // }else{
-      return mods + Key.name(keys.key);
+    return mods + Key.name(keys.key);
     // }
   }
 
@@ -281,7 +320,8 @@ typedef DebugAction = {
   group:DebugGroupName,
   name:String,
   keys:KeyCombo,
-  event:String,
+  ?event:String,
+  ?events:Array<String>,
 }
 
 typedef KeyCombo = {

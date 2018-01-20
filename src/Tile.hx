@@ -1,17 +1,13 @@
 
 import components.DestroyByDistance;
-import components.Movement;
-import luxe.components.sprite.SpriteAnimation;
 import luxe.Sprite;
-import luxe.Component;
 import luxe.options.SpriteOptions;
-import luxe.utils.Maths;
 import luxe.Vector;
 
 class Tile extends Sprite {
 
   public static inline var TILE_SIZE:Float = 16;
-  public static inline var TILES_COUNT:Int = 13;
+  public static inline var TILES_COUNT:Int = 20;
 
   var tile_id:Int = -1;
   // var tiles_x:Int;
@@ -68,6 +64,7 @@ class Tile extends Sprite {
     this.uv.h = TILE_SIZE;
 
     this.uv.x = tile_id * TILE_SIZE;
+    this.uv.y = TILE_SIZE;
 
     add(new DestroyByDistance({
       name: 'tile',

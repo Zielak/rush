@@ -1,6 +1,5 @@
 import enemies.Gal;
 import luxe.Entity;
-import luxe.Input;
 import luxe.Scene;
 import luxe.Sprite;
 import luxe.States;
@@ -311,11 +310,11 @@ class Game extends State {
       spawner.events.fire('sequence.gal');
     }));
 
-    game_events.push(Luxe.events.listen('debug.game.pause', function(_){
+    game_events.push(Luxe.events.listen('debug_game.pause', function(_){
       Game.delayed = !Game.delayed;
     }));
 
-    game_events.push(Luxe.events.listen('debug.game.hope.max', function(_){
+    game_events.push(Luxe.events.listen('debug_game.hope.max', function(_){
       Game.hope = 1;
     }));
   }

@@ -1,13 +1,10 @@
 
 package components;
 
-import luxe.Color;
 import luxe.Component;
-import luxe.Input;
 import luxe.options.ComponentOptions;
 import luxe.Sprite;
 import luxe.Vector;
-import luxe.Visual;
 import phoenix.Batcher;
 import phoenix.RenderTexture;
 import phoenix.Shader;
@@ -78,7 +75,7 @@ class LowresShader extends Component {
       batcher : final_batch,
     });
 
-    Luxe.events.listen('debug.rendering.shader.toggle', function(_){
+    Luxe.events.listen('debug_rendering.shader.toggle', function(_){
       enabled = !enabled;
       final_view.visible = enabled;
     });

@@ -1,12 +1,13 @@
 
 package components;
 
-import luxe.Color;
 import luxe.Component;
 import luxe.Input;
 import luxe.Vector;
 
 class Input extends Component {
+
+  public var active:Bool = true;
 
   // Movement
   public var left:Bool    = false;
@@ -21,31 +22,42 @@ class Input extends Component {
   public var move:Bool    = false;
 
   // action button
-  public var A:Bool  = false;
-  public var B:Bool  = false;
-  public var Apressed:Bool  = false;
-  public var Bpressed:Bool  = false;
+  public var A:Bool = false;
+  public var B:Bool = false;
+  public var Apressed:Bool = false;
+  public var Bpressed:Bool = false;
 
   override function init():Void {
-    Luxe.input.bind_key('left',     Key.key_a);
-    Luxe.input.bind_key('right',    Key.key_d);
-    Luxe.input.bind_key('up',       Key.key_w);
-    Luxe.input.bind_key('down',     Key.key_s);
+    Luxe.input.bind_key('left', Key.key_a);
+    Luxe.input.bind_key('right', Key.key_d);
+    Luxe.input.bind_key('up', Key.key_w);
+    Luxe.input.bind_key('down', Key.key_s);
 
-    Luxe.input.bind_key('left',     Key.left);
-    Luxe.input.bind_key('right',    Key.right);
-    Luxe.input.bind_key('up',       Key.up);
-    Luxe.input.bind_key('down',     Key.down);
+    Luxe.input.bind_key('left', Key.left);
+    Luxe.input.bind_key('right', Key.right);
+    Luxe.input.bind_key('up', Key.up);
+    Luxe.input.bind_key('down', Key.down);
 
-    Luxe.input.bind_key('A',   Key.space);
+    Luxe.input.bind_key('A', Key.space);
 
-    Luxe.input.bind_mouse('B',   MouseButton.left);
+    Luxe.input.bind_mouse('B', MouseButton.left);
 
+    Luxe.events.listen('debug_player.input.toggle', function(_){
+      active = !active;
+    });
+    Luxe.events.listen('debug_player.input.enable', function(_){
+      active = true;
+    });
+    Luxe.events.listen('debug_player.input.disable', function(_){
+      active = false;
+    });
   }
 
   override function update(dt:Float):Void {
+    if (!active) {
+      return;
+    }
     updateKeys();
-
     updateAim();
   }
 
@@ -56,10 +68,10 @@ class Input extends Component {
     up = Luxe.input.inputdown('up');
     down = Luxe.input.inputdown('down');
 
-    A  = Luxe.input.inputdown('A');
-    Apressed  = Luxe.input.inputpressed('A');
-    B  = Luxe.input.inputdown('B');
-    Bpressed  = Luxe.input.inputpressed('B');
+    A = Luxe.input.inputdown('A');
+    Apressed = Luxe.input.inputpressed('A');
+    B = Luxe.input.inputdown('B');
+    Bpressed = Luxe.input.inputpressed('B');
 
     if (left && right) {
       left = right = false;

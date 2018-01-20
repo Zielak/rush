@@ -198,8 +198,9 @@ class Player extends Sprite {
       play_animation('death');
     });
 
-    Luxe.events.listen('debug.player.animations.toggle', function(_) {
+    Luxe.events.listen('debug_player.animations.toggle', function(_) {
       debugAnimate = !debugAnimate;
+      debugAnimate ? anim.play() : anim.stop();
     });
   }
 
