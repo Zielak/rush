@@ -1,25 +1,34 @@
 
 using polyfills.ArrayTools;
 
-class Sequences {
+import luxe.Entity;
 
-  @:isVar public var sequences:Array<Sequence>;
+class Sequences extends Entity {
+
+  public var sequences:Array<Sequence>;
 
   public var current_sequence:Sequence;
-  // var currentIdx:Int;
-  // public var current_sequence(default, null):Sequence;
-  // function get_current_sequence():Sequence {
-  //   return sequences[currentIdx];
-  // }
 
   public var length(default, null):Int;
   function get_length():Int {
     return sequences.length;
   }
 
-  public function new () {
+  public function new (options:luxe.options.EntityOptions) {
+    super(options);
     sequences = new Array<Sequence>();
-    // currentIdx = 0;
+
+    initEvents();
+  }
+
+  function initEvents() {
+    // Global
+    Luxe.events.listen('debug_sequence.finish', function(_){
+      current_sequence.finished = true;
+    });
+    Luxe.events.listen('debug_sequence.next', function(_){
+      pickSequence();
+    });
   }
 
   public function pickSequence(?name:String):Sequence {
@@ -60,7 +69,7 @@ class Sequences {
     return current_sequence;
   }
 
-  public function update(dt):Bool{
-    return current_sequence.update(dt);
+  override public function update(dt:Float) {
+    current_sequence.update(dt);
   }
 }
