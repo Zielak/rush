@@ -1,8 +1,8 @@
 package sequences;
 
 class World1 extends Sequences {
-  override public function new () {
-    super();
+  override public function new (?options:luxe.options.EntityOptions) {
+    super(options);
 
     var actions:Array<Action>;
 
