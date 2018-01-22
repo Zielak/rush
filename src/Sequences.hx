@@ -1,4 +1,6 @@
 
+using polyfills.ArrayTools;
+
 class Sequences {
 
   @:isVar public var sequences:Array<Sequence>;
@@ -20,31 +22,34 @@ class Sequences {
     // currentIdx = 0;
   }
 
-  public function pickSequence():Sequence {
+  public function pickSequence(?name:String):Sequence {
     var _seq:Sequence;
-
-    if (sequences.length > 0) {
-      _seq = current_sequence;
-
-      // Make array aligned to difficulty
-      var _ts:Array<Sequence> = new Array<Sequence>();
-
-      for (s in sequences) {
-        if (s.difficulty < 0 ||
-            (s.difficulty > Game.difficulty - 0.15 && s.difficulty < Game.difficulty + 0.15)
-           ) {
-          _ts.push(s);
-        }
+    if (name != null) {
+      _seq = sequences.find(function(seq, ?_, ?_){
+        return seq.name == name;
+      });
+      if(_seq != null) {
+        current_sequence = _seq;
+        return current_sequence;
+      } else {
+        trace('SEQUENCE: can\'t find sequence: ');
       }
+    }
+    if (sequences.length > 0) {
+      // Make array aligned to difficulty
+      var _ts:Array<Sequence> = sequences.filter(function(seq):Bool {
+        var sameAsLastOne:Bool = seq == current_sequence;
+        return (
+          !sameAsLastOne &&
+          (
+            seq.difficulty < 0 ||
+            (seq.difficulty > Game.difficulty - 0.15 && seq.difficulty < Game.difficulty + 0.15)
+          )
+        )
+      });
 
       // trace('SEQUENCE: picked ${_ts.length} sequences by difficulty: ${Game.difficulty}');
-
-      // can't be the same as last one
-      // TODO: Replace with Array.filter()
-      while (_seq == current_sequence) {
-        _seq = _ts[ Math.floor(Math.random()*(_ts.length))] ;
-      }
-
+      _seq = _ts[Math.floor(Math.random()*(_ts.length))];
       // trace('SEQUENCE: chosen seq: "${_seq.name}" diff:${_seq.difficulty} ');
 
       current_sequence = _seq;
