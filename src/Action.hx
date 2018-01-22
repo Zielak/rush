@@ -3,11 +3,13 @@ class Action {
 
   var time:Float = 0;
 
-  // Property to be read by sequence.
-  @:isVar public var delay(default, null):Float = 0;
+  // At which time should this action be fired
+  @:isVar public var start(default, null):Float = 0;
 
-  // Wait for this action to finish?
-  @:isVar public var wait(default, null):Bool = false;
+  // For how long should this action be held playing
+  @:isVar public var duration(default, null):Float = 0;
+
+  @:isVar public var async(default, null):Bool = false;
 
   // Did action fire?
   @:isVar public var fired(default, null):Bool = false;
@@ -16,16 +18,21 @@ class Action {
   @:isVar public var finished(default, null):Bool = false;
 
   public function new (options:ActionOptions) {
-    finished = false;
-    delay = options.delay;
-
-    if (options.wait != null) {
-      wait = options.wait;
+    if(options.start != null) {
+      start = options.start;
+    }
+    if(options.duration != null) {
+      duration = options.duration;
     }
   }
 
+  /**
+   *  Should be updated everytime a Sequece decides it is time to run.
+   *  Never outside of its action time.
+   *  @param dt - 
+   */
   public function update(dt:Float) {
-    if (fired) {
+    if (!fired) {
       return;
     }
 
@@ -40,7 +47,7 @@ class Action {
     fired = true;
     action();
 
-    if (!wait) {
+    if (!async) {
       finish();
     }
   }
@@ -60,7 +67,7 @@ class Action {
   }
 
   /**
-   * Used when action isn't autoplay (wait = true)
+   * Used when action isn't autoplay (async = true)
    * and we're waiting for the final words
    */
   public function finish() {
@@ -71,6 +78,8 @@ class Action {
 }
 
 typedef ActionOptions = {
-  var delay:Float;
+  @:optional var async:Bool;
+  @:optional var start:Float;
+  @:optional var duration:Float;
   @:optional var wait:Bool;
 }

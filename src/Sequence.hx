@@ -1,60 +1,52 @@
+import luxe.Entity;
 import Action;
 
-class Sequence {
+using polyfills.ArrayTools;
 
-  // for debuging sake...
-  @:isVar public var name(default, null):String;
+/**
+ *  Sequence is a self-running timeline of actions.
+ *  Think of it as a video file. You can play it, stop it,
+ *  see it in action etc.
+ */
 
+class Sequence extends Entity {
 
-  var actions:Array<Action>;
-  var current_action:Int = 0;
-
-  // read by spawner.
+  @:isVar public var timeline(default, null):Array<Action>;
   @:isVar public var difficulty(default, null):Float;
 
-  var time:Float;
-
+  // Initial delay before this sequence is run
+  @:isVar public var prefix(default, null):Float;
+  // Delay right before the ending of this sequence
+  @:isVar public var postfix(default, null):Float;
+  // Duration of the whole sequence (excluding pre and postfix)
   @:isVar public var duration(default, null):Float;
-  var delay:Float = 0;
-  var ending:Float = 0;
-
-  public var finished:Bool = false;
-  var wait_for_ending:Bool = true; // FUCK IT, no time
-
-  @:isVar public var action(get, null):Action;
-  function get_action():Action {
-    return actions[current_action];
+  // Duration + prefix + postfix
+  public var wholeDuration(default, null):Float;
+  public function get_wholeDuration():Float {
+    return duration + prefix + postfix;
   }
 
+  // Current time in seconds
+  @:isVar public var currentTime(default, null):Float = 0;
+  // Time, but in percent 0-1.0
+  public var current(default, null):Float;
+  public function get_current():Float {
+    return wholeDuration/currentTime * 100;
+  }
+
+  @:isVar public var finished(default, null):Bool = false;
+
   public function new (options:SequenceOptions) {
+    super(options);
+
     name = options.name;
-
-    actions = options.actions;
-
+    timeline = options.timeline;
     difficulty = options.difficulty;
 
-    if (options.delay != null) {
-      delay = options.delay;
-    }
-
-    if (options.ending != null) {
-      ending = options.ending;
-    }
-
     // get sequence's duration
-    duration = 0;
-
-    for (a in actions) {
-      duration += a.delay;
-    }
-
-    duration += delay + ending;
-
-    time = 0;
-
-
-    // trace('sequence started...');
-    // trace(' -  duration = ${duration}');
+    prefix = options.prefix != null ? options.prefix : 0;
+    postfix = options.postfix != null ? options.postfix : 0;
+    duration = options.duration + prefix + postfix;
   }
 
   /**
@@ -62,14 +54,13 @@ class Sequence {
    *  @param dt - selta time
    *  @return Bool wether this sequence finished or not yet
    */
-  public function update(dt:Float):Bool {
+  override public function update(dt:Float) {
 
     if (!finished) {
-      if (time > duration) {
-        // trace('sequence finished...');
+      if (currentTime > wholeDuration) {
         finished = true;
       }
-      else if (time >= delay && time <= duration-ending) {
+      else if (currentTime >= delay && currentTime <= duration-ending) {
         action.update(dt);
 
         if (action.finished) {
@@ -78,44 +69,43 @@ class Sequence {
       }
 
       if ((action.wait && !action.fired) || !action.wait) {
-        time += dt;
+        currentTime += dt;
       }
 
     }
 
-    return finished;
-
     // actions[current_action].update();
+  }
+
+  public function currentActions():Array<Action> {
+    return timeline.filter(function(action):Bool{
+      // 1. currentTime between its start and end.
+      // 2. If end time passed, check if it was even fired (missed short action?)
+      return (
+        action.start <= current && action.end > current ||
+        action.start <= current && action.end <= current && !action.started
+      )
+    });
   }
 
   public function reset() {
     finished = false;
-    time = -delay;
-    current_action = 0;
+    currentTime = 0;
 
-    for (a in actions) {
+    for (a in timeline) {
       a.reset();
     }
-  }
-
-  function next() {
-    current_action ++;
-
-    if (current_action >= actions.length) {
-      finished = true;
-      current_action --;
-    }
-
-    // trace(' - Next action [${current_action}]');
   }
 
 }
 
 typedef SequenceOptions = {
+  >luxe.options.EntityOptions,
   var name:String;
-  var actions:Array<Action>;
+  var timeline:Array<Action>;
+  var duration:Float;
   var difficulty:Float;
 
-  @:optional var delay:Float;
-  @:optional var ending:Float;
+  @:optional var prefix:Float;
+  @:optional var postfix:Float;
 }
