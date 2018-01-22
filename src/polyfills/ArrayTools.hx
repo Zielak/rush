@@ -41,7 +41,7 @@ class ArrayTools {
     return newArr;
   }
 
-  static public function find<T>(arr:Array<T>, predicate:(T -> ?Int -> ?Array<T> -> Bool)):T {
+  static public function find<T>(arr:Array<T>, predicate:T->?Int->?Array<T>->Bool):T {
     // 1. Let O be ? ToObject(this value).
     // if (this == null) {
     //   throw '"this" is null or not defined';
@@ -81,7 +81,7 @@ class ArrayTools {
     return null;
   }
   
-  static public function some<T>(arr:Array<T>, fun:(T -> ?Int -> ?Array<T> -> Bool)):Bool {
+  static public function some<T>(arr:Array<T>, fun:T->?Int->?Array<T>->Bool):Bool {
     var len = arr.length >>> 0;
 
     for (i in 0...len) {
