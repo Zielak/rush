@@ -53,14 +53,33 @@ class Sequence extends Entity {
     prefix = options.prefix != null ? options.prefix : 0;
     postfix = options.postfix != null ? options.postfix : 0;
     duration = options.duration + prefix + postfix;
+
+    initEvents();
   }
   
   function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
-    var arr:Array<Action> = [];
-    for(desc in actionsDescriptors){
-      arr.push(Action.create(desc.options));
-    }
+    var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor){
+      return Type.createInstance(desc.action, [desc.options]);
+    });
+    // for(desc in actionsDescriptors){
+    //   var action = Type.createInstance();
+    //   arr.push(action);
+    // }
     return arr;
+  }
+  
+  function initEvents() {
+    for(action in timeline){
+      action.events.listen('started', function(_){
+        
+      });
+      action.events.listen('finished', function(_){
+        
+      });
+      action.events.listen('waiting', function(_){
+        
+      });
+    }
   }
 
   /**

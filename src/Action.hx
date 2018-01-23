@@ -1,12 +1,7 @@
 
 // import haxe.Constraints;
 
-class Action<T> {
-
-  // @:generic
-  public static function create<T>(options:ActionOptions):Action<T> {
-    return new Action<T>(options);
-  }
+class Action {
 
   var time:Float = 0;
   public var events:luxe.Events;

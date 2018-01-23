@@ -1,0 +1,3 @@
+-main test.Sandbox
+-js bin/test/sandbox.js
+--connect 6000
