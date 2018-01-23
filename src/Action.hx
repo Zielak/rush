@@ -1,15 +1,25 @@
 
-class Action {
+// import haxe.Constraints;
+
+class Action<T> {
+
+  // @:generic
+  public static function create<T>(options:ActionOptions):Action<T> {
+    return new Action<T>(options);
+  }
 
   var time:Float = 0;
+  public var events:luxe.Events;
 
   // At which time should this action be fired
   @:isVar public var start(default, null):Float = 0;
 
+  // Action will not finish without an outside bump.
+  // Should block the Sequence! HOW?
+  @:isVar public var async(default, null):Bool = false;
+
   // For how long should this action be held playing
   @:isVar public var duration(default, null):Float = 0;
-
-  @:isVar public var async(default, null):Bool = false;
 
   // Did action fire?
   @:isVar public var fired(default, null):Bool = false;

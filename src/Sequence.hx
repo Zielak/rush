@@ -12,6 +12,7 @@ using polyfills.ArrayTools;
 class Sequence extends Entity {
 
   @:isVar public var timeline(default, null):Array<Action>;
+  
   @:isVar public var difficulty(default, null):Float;
 
   // Initial delay before this sequence is run
@@ -36,17 +37,30 @@ class Sequence extends Entity {
 
   @:isVar public var finished(default, null):Bool = false;
 
+  // List of actions which are blocking progress right now.
+  // Listen for them to finish. If there's at least one blocking
+  // action, non of the other pending actions should receive an update.
+  var blockers:Array<Action>;
+
   public function new (options:SequenceOptions) {
     super(options);
 
     name = options.name;
-    timeline = options.timeline;
+    timeline = populateActions(options.timeline);
     difficulty = options.difficulty;
 
     // get sequence's duration
     prefix = options.prefix != null ? options.prefix : 0;
     postfix = options.postfix != null ? options.postfix : 0;
     duration = options.duration + prefix + postfix;
+  }
+  
+  function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
+    var arr:Array<Action> = [];
+    for(desc in actionsDescriptors){
+      arr.push(Action.create(desc.options));
+    }
+    return arr;
   }
 
   /**
@@ -102,10 +116,15 @@ class Sequence extends Entity {
 typedef SequenceOptions = {
   >luxe.options.EntityOptions,
   var name:String;
-  var timeline:Array<Action>;
+  var timeline:Array<ActionDescriptor>;
   var duration:Float;
   var difficulty:Float;
 
   @:optional var prefix:Float;
   @:optional var postfix:Float;
+}
+
+typedef ActionDescriptor = {
+  var options:ActionOptions;
+  var action:Class<Action>;
 }
