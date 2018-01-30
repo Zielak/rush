@@ -3,18 +3,24 @@
 
 class Action {
 
-  var time:Float = 0;
+  var currentTime:Float = 0;
   public var events:luxe.Events;
 
   // At which time should this action be fired
   @:isVar public var start(default, null):Float = 0;
 
-  // Action will not finish without an outside bump.
-  // Should block the Sequence! HOW?
-  @:isVar public var async(default, null):Bool = false;
-
   // For how long should this action be held playing
   @:isVar public var duration(default, null):Float = 0;
+
+  public var end(default, null):Float;
+  public function get_end():Float {
+    return start + duration;
+  }
+
+  // Action will not finish without an outside bump.
+  // Action should still play and keep updating untill `currentTime`
+  // reaches `duration` value.
+  @:isVar public var async(default, null):Bool = false;
 
   // Did action fire?
   @:isVar public var fired(default, null):Bool = false;
@@ -23,10 +29,10 @@ class Action {
   @:isVar public var finished(default, null):Bool = false;
 
   public function new (options:ActionOptions) {
-    if(options.start != null) {
+    if (options.start != null) {
       start = options.start;
     }
-    if(options.duration != null) {
+    if (options.duration != null) {
       duration = options.duration;
     }
   }
@@ -34,39 +40,36 @@ class Action {
   /**
    *  Should be updated everytime a Sequece decides it is time to run.
    *  Never outside of its action time.
-   *  @param dt - 
+   *  @param dt -
    */
   public function update(dt:Float) {
-    if (!fired) {
-      return;
+    if (!fired && !finished) {
+      fire();
     }
 
-    time += dt;
+    if(!async && !finished){
+      currentTime += dt;
+    }
 
-    if (time >= delay) {
-      fire();
+    if (currentTime >= duration) {
+      if (!async) {
+        finish();
+      } else {
+        // I should keep waiting...
+      }
     }
   }
 
   function fire() {
     fired = true;
-    action();
-
-    if (!async) {
-      finish();
-    }
+    onStart();
   }
-
-  /**
-   * Override it do create your own actions
-   */
-  public function action() {}
 
   /**
    * Call to reset this action and maybe start over
    */
   public function reset() {
-    time = 0;
+    currentTime = 0;
     finished = false;
     fired = false;
   }
@@ -76,9 +79,26 @@ class Action {
    * and we're waiting for the final words
    */
   public function finish() {
-    time = 0;
+    currentTime = 0;
     finished = true;
+    onFinish();
   }
+
+  /**
+   * Override it to create your own starting action
+   */
+  public function onStart() {}
+
+  /**
+   * Override it to handle each update
+   */
+  public function onUpdate(dt:Float) {}
+
+  /**
+   * Override it to create your own starting action
+   */
+  public function onFinish() {}
+
 
 }
 

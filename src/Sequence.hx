@@ -12,7 +12,7 @@ using polyfills.ArrayTools;
 class Sequence extends Entity {
 
   @:isVar public var timeline(default, null):Array<Action>;
-  
+
   @:isVar public var difficulty(default, null):Float;
 
   // Initial delay before this sequence is run
@@ -33,6 +33,18 @@ class Sequence extends Entity {
   public var current(default, null):Float;
   public function get_current():Float {
     return wholeDuration/currentTime * 100;
+  }
+
+  var currentActions(default, null):Array<Action>;
+  public function get_currentActions():Array<Action> {
+    return timeline.filter(function(action):Bool{
+      // 1. currentTime between its start and end.
+      // 2. If end time passed, check if it was even fired (missed short action?)
+      return (
+        action.start <= current && action.end > current ||
+        action.start <= current && action.end <= current && !action.fired
+      )
+    });
   }
 
   @:isVar public var finished(default, null):Bool = false;
@@ -56,9 +68,9 @@ class Sequence extends Entity {
 
     initEvents();
   }
-  
+
   function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
-    var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor){
+    var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor) {
       return Type.createInstance(desc.action, [desc.options]);
     });
     // for(desc in actionsDescriptors){
@@ -67,17 +79,19 @@ class Sequence extends Entity {
     // }
     return arr;
   }
-  
+
   function initEvents() {
-    for(action in timeline){
-      action.events.listen('started', function(_){
-        
+    for (action in timeline) {
+      action.events.listen('started', function(action:Action) {
+
       });
-      action.events.listen('finished', function(_){
-        
+      action.events.listen('finished', function(action:Action) {
+        blockers = blockers.filter(function(element:Action){
+          return element != action;
+        })
       });
-      action.events.listen('waiting', function(_){
-        
+      action.events.listen('waiting', function(action:Action) {
+        blockers.push(action);
       });
     }
   }
@@ -89,19 +103,17 @@ class Sequence extends Entity {
    */
   override public function update(dt:Float) {
 
+    if (!finished && currentTime > wholeDuration) {
+      finished = true;
+    }
+
     if (!finished) {
-      if (currentTime > wholeDuration) {
-        finished = true;
+      
+      // Update every running action
+      for(a in currentActions){
+        a.update(dt);
       }
-      else if (currentTime >= delay && currentTime <= duration-ending) {
-        action.update(dt);
-
-        if (action.finished) {
-          next();
-        }
-      }
-
-      if ((action.wait && !action.fired) || !action.wait) {
+      if (blockers.length == 0) {
         currentTime += dt;
       }
 
@@ -110,16 +122,7 @@ class Sequence extends Entity {
     // actions[current_action].update();
   }
 
-  public function currentActions():Array<Action> {
-    return timeline.filter(function(action):Bool{
-      // 1. currentTime between its start and end.
-      // 2. If end time passed, check if it was even fired (missed short action?)
-      return (
-        action.start <= current && action.end > current ||
-        action.start <= current && action.end <= current && !action.started
-      )
-    });
-  }
+  
 
   public function reset() {
     finished = false;
@@ -129,6 +132,14 @@ class Sequence extends Entity {
       a.reset();
     }
   }
+
+  /**
+   *  Only for debugging i guess
+   */
+  public function _finish() {
+    finished = true;
+  }
+
 
 }
 

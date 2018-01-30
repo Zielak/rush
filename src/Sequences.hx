@@ -1,4 +1,3 @@
-
 using polyfills.ArrayTools;
 
 import luxe.Entity;
@@ -24,7 +23,7 @@ class Sequences extends Entity {
   function initEvents() {
     // Global
     Luxe.events.listen('debug_sequence.finish', function(_){
-      current_sequence.finished = true;
+      current_sequence._finish();
     });
     Luxe.events.listen('debug_sequence.next', function(_){
       pickSequence();
