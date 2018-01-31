@@ -28,7 +28,7 @@ class Action {
   // Check if action is completely finished
   @:isVar public var finished(default, null):Bool = false;
 
-  public function new (options:ActionOptions) {
+  public function new (?options:ActionOptions) {
     if (options.start != null) {
       start = options.start;
     }
@@ -106,5 +106,9 @@ typedef ActionOptions = {
   @:optional var async:Bool;
   @:optional var start:Float;
   @:optional var duration:Float;
-  @:optional var wait:Bool;
+}
+
+typedef ActionDescriptor = {
+  @:optional var options:ActionOptions;
+  var action:Class<Action>;
 }

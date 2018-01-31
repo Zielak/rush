@@ -8,6 +8,7 @@ import luxe.Rectangle;
 import luxe.tween.Actuate;
 import luxe.Vector;
 import luxe.Visual;
+import Action;
 
 class Spawner extends Entity {
 
@@ -212,16 +213,16 @@ class Spawner extends Entity {
 
     arr = null;
 
-    var actions:Array<Action> = new Array<Action>();
+    var timeline:Array<ActionDescriptor> = new Array<ActionDescriptor>();
 
     // Speed
-    actions.push(new actions.ChangeSpeed({
-      target_speed: 0,
-      delay: 0,
-    }));
+    // TODO: whoops, options must be of type ChangeSpeedOptions, but expects ActionOptions...
+    timeline.push({ action: actions.ChangeSpeed, options: {
+      target_speed: 0
+    });
 
     if (reason == 'hope') {
-      actions.push(new actions.ShowTutorialScreen({
+      timeline.push(new actions.ShowTutorialScreen({
         delay: 0.5,
         screen: 'assets/images/text.gif',
         uv: new Rectangle(0, 24, 108, 24),
@@ -233,7 +234,7 @@ class Spawner extends Entity {
     }
 
     else if (reason == 'distance') {
-      actions.push(new actions.ShowTutorialScreen({
+      timeline.push(new actions.ShowTutorialScreen({
         delay: 0.5,
         screen: 'assets/images/text.gif',
         uv: new Rectangle(0, 0, 86, 24),
@@ -244,14 +245,14 @@ class Spawner extends Entity {
 
     }
 
-    actions.push(new actions.CustomAction({
+    timeline.push(new actions.CustomAction({
       delay: 1,
       action: function() {
         Luxe.events.fire('game.over.quit');
       }
     }));
 
-    gameover_seq = new Sequence({name:'game over', actions: actions, difficulty: -1});
+    gameover_seq = new Sequence({name:'game over', timeline: timeline, difficulty: -1});
 
   }
 

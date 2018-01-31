@@ -47,13 +47,10 @@ class Sequences extends Entity {
       // Make array aligned to difficulty
       var _ts:Array<Sequence> = sequences.filter(function(seq):Bool {
         var sameAsLastOne:Bool = seq == current_sequence;
-        return (
-          !sameAsLastOne &&
-          (
-            seq.difficulty < 0 ||
-            (seq.difficulty > Game.difficulty - 0.15 && seq.difficulty < Game.difficulty + 0.15)
-          )
-        )
+        return !sameAsLastOne && (
+          seq.difficulty < 0 ||
+          (seq.difficulty > Game.difficulty - 0.15 && seq.difficulty < Game.difficulty + 0.15)
+        );
       });
 
       // trace('SEQUENCE: picked ${_ts.length} sequences by difficulty: ${Game.difficulty}');

@@ -9,6 +9,7 @@ class TestAll {
     //runner.globalPattern = ~/testBooleans/;
     // runner.addCase(new utest.TestAssert());
     runner.addCase(new test.polyfills.TestArrayTools());
+    runner.addCase(new test.TestSequence());
   }
 
   public static function main() {

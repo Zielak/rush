@@ -1,30 +1,42 @@
 package sequences;
+import Action;
 
 class World1 extends Sequences {
   override public function new (?options:luxe.options.EntityOptions) {
     super(options);
 
-    var actions:Array<Action>;
+    var timeline:Array<ActionDescriptor>;
 
     // | line of Bombs
-    actions = new Array<Action>();
-    actions.push(new actions.SpawnLineOfBomb({delay: 0.5}));
-    sequences.push(new Sequence({name:'line of bombs', actions: actions, difficulty: 0.03}));
-    sequences.push(new Sequence({name:'line of bombs', actions: actions, difficulty: 0.3}));
-    sequences.push(new Sequence({name:'line of bombs', actions: actions, difficulty: 0.68}));
-    sequences.push(new Sequence({name:'line of bombs', actions: actions, difficulty: 0.84}));
+    timeline = [];
+    timeline.push({action: actions.SpawnLineOfBomb});
+    sequences.push(new Sequence({
+      name:'line of bombs', timeline: timeline, duration: 0.5, difficulty: 0.03
+    }));
+    sequences.push(new Sequence({
+      name:'line of bombs', timeline: timeline, duration: 0.5, difficulty: 0.3
+    }));
+    sequences.push(new Sequence({
+      name:'line of bombs', timeline: timeline, duration: 0.5, difficulty: 0.68
+    }));
+    sequences.push(new Sequence({
+      name:'line of bombs', timeline: timeline, duration: 0.5, difficulty: 0.84
+    }));
 
     // | MORE lines of bombs
-    actions = new Array<Action>();
-    actions.push(new actions.SpawnLineOfBomb({delay: 1}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 2}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1.5}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1}));
-    sequences.push(new Sequence({name:'MORE line of bombs', actions: actions, ending: 1.5, difficulty: 0.33}));
+    timeline = [];
+    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 1}});
+    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 2}});
+    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 1.5}});
+    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 1}});
+    sequences.push(new Sequence({
+      name:'MORE line of bombs', timeline: timeline, postfix: 1.5, difficulty: 0.33
+    }));
 
-
+    /*
+    TODO: Finish this.
     // HELL OF line bombs
-    actions = new Array<Action>();
+    timeline = [];
     actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
     actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
     actions.push(new actions.SpawnLineOfBomb({delay: 1}));
@@ -41,7 +53,7 @@ class World1 extends Sequences {
 
 
     // Spawn stationary bombs
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...13) {
       actions.push(new actions.SpawnBomb({delay: 0.6}));
@@ -50,7 +62,7 @@ class World1 extends Sequences {
     sequences.push(new Sequence({name:'bombs', actions: actions, difficulty: 0.05}));
 
     // Spawn MORE BOMBS
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...18) {
       actions.push(new actions.SpawnBomb({delay: 0.45}));
@@ -59,7 +71,7 @@ class World1 extends Sequences {
     sequences.push(new Sequence({name:'MORE bombs', actions: actions, difficulty: 0.17}));
 
     // BOMB HELL
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...16) {
       actions.push(new actions.SpawnBomb({delay: 0.5}));
@@ -70,7 +82,7 @@ class World1 extends Sequences {
 
 
     // UBER MENSH BOMBORDIER
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...13) {
       actions.push(new actions.SpawnBomb({delay: 0.3}));
@@ -85,7 +97,7 @@ class World1 extends Sequences {
 
 
     // HARDCORE MIX of Bombs and Crunchers!
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...13) {
       actions.push(new actions.SpawnBomb({delay: 0.5}));
@@ -119,7 +131,7 @@ class World1 extends Sequences {
 
 
     // Spawn FRONTAL Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...4) {
       actions.push(new actions.SpawnCruncher({
@@ -130,7 +142,7 @@ class World1 extends Sequences {
     sequences.push(new Sequence({name:'frontal crunchers', actions: actions, delay: 0.5, difficulty: 0.1}));
 
     // Spawn more frontal Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...6) {
       actions.push(new actions.SpawnCruncher({
@@ -146,7 +158,7 @@ class World1 extends Sequences {
 
 
     // Spawn BACK Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...4) {
       actions.push(new actions.SpawnCruncher({
@@ -157,7 +169,7 @@ class World1 extends Sequences {
     sequences.push(new Sequence({name:'back crunchers', actions: actions, difficulty: 0}));
 
     // Spawn HELL of BACK Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...10) {
       actions.push(new actions.SpawnCruncher({
@@ -174,7 +186,7 @@ class World1 extends Sequences {
 
 
     // Spawn BACK & FRONT Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...10) {
       actions.push(new actions.SpawnCruncher({
@@ -190,7 +202,7 @@ class World1 extends Sequences {
 
 
     // Spawn MORE BACK & FRONT Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...12) {
       actions.push(new actions.SpawnCruncher({
@@ -207,7 +219,7 @@ class World1 extends Sequences {
 
 
     // Spawn UBER SPIEL BACK & FRONT Crunchers
-    actions = new Array<Action>();
+    timeline = [];
 
     for (i in 0...30) {
       actions.push(new actions.SpawnCruncher({
@@ -224,10 +236,11 @@ class World1 extends Sequences {
 
 
     // Change direction
-    actions = new Array<Action>();
+    timeline = [];
     actions.push(new actions.ChangeDirection({delay: 1.5}));
     actions.push(new actions.Wait({delay: 1.5}));
     sequences.push(new Sequence({name:'change direction', actions: actions, difficulty: -1}));
 
+    */
   }
 }

@@ -1,12 +1,12 @@
 package actions;
 
-import Action.ActionOptions;
+import Action;
 import enemies.Bomb;
 import luxe.Vector;
 
 class SpawnLineOfBomb extends Action {
 
-  override public function action() {
+  override public function onStart() {
 
     var bomb:Bomb;
     var v:Vector;
@@ -25,11 +25,10 @@ class SpawnLineOfBomb extends Action {
       }
       else {
         // trace('x: ${v.x}');
-        v.x += -Game.width*0.25  + i * Tile.TILE_SIZE;
+        v.x += -Game.width*0.25 + i * Tile.TILE_SIZE;
         v.x = Math.round(v.x/16)*16;
         // trace(' -> x: ${v.x}');
       }
-
 
       bomb = new Bomb({
         pos: v,
@@ -37,9 +36,6 @@ class SpawnLineOfBomb extends Action {
       });
       bomb.add(new components.DestroyByDistance({distance: 200}));
     }
-
-    // trace('${_x}, ${_y}');
-
 
   }
 

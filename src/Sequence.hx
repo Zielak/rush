@@ -43,7 +43,7 @@ class Sequence extends Entity {
       return (
         action.start <= current && action.end > current ||
         action.start <= current && action.end <= current && !action.fired
-      )
+      );
     });
   }
 
@@ -64,12 +64,14 @@ class Sequence extends Entity {
     // get sequence's duration
     prefix = options.prefix != null ? options.prefix : 0;
     postfix = options.postfix != null ? options.postfix : 0;
-    duration = options.duration + prefix + postfix;
+
+    // calculate duration
+    duration = calculateDuration(timeline);
 
     initEvents();
   }
 
-  function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
+  public static function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
     var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor) {
       return Type.createInstance(desc.action, [desc.options]);
     });
@@ -80,15 +82,25 @@ class Sequence extends Entity {
     return arr;
   }
 
+  public static function calculateDuration(timeline:Array<Action>):Float {
+    var length:Float = 0;
+    for(a in timeline) {
+      if(a.start + a.duration > length){
+        length = a.start + a.duration;
+      }
+    }
+    return length;
+  }
+
   function initEvents() {
     for (action in timeline) {
       action.events.listen('started', function(action:Action) {
 
       });
       action.events.listen('finished', function(action:Action) {
-        blockers = blockers.filter(function(element:Action){
+        blockers = blockers.filter(function(element:Action) {
           return element != action;
-        })
+        });
       });
       action.events.listen('waiting', function(action:Action) {
         blockers.push(action);
@@ -107,22 +119,21 @@ class Sequence extends Entity {
       finished = true;
     }
 
-    if (!finished) {
-      
+    if (finished) {
+
+    }
+    else {
       // Update every running action
-      for(a in currentActions){
+      for (a in currentActions) {
         a.update(dt);
       }
       if (blockers.length == 0) {
         currentTime += dt;
       }
-
     }
 
     // actions[current_action].update();
   }
-
-  
 
   public function reset() {
     finished = false;
@@ -146,15 +157,9 @@ class Sequence extends Entity {
 typedef SequenceOptions = {
   >luxe.options.EntityOptions,
   var name:String;
-  var timeline:Array<ActionDescriptor>;
-  var duration:Float;
+  var timeline:Array<ActionDescriptor>;  @:optional var duration:Float;
   var difficulty:Float;
 
   @:optional var prefix:Float;
   @:optional var postfix:Float;
-}
-
-typedef ActionDescriptor = {
-  var options:ActionOptions;
-  var action:Class<Action>;
 }
