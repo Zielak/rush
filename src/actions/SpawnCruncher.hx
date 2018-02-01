@@ -21,7 +21,7 @@ class SpawnCruncher extends Action {
   }
 
 
-  override public function action() {
+  override public function onStart() {
 
     var cruncher:Cruncher = new Cruncher({
       pos: Spawner.pick_place(spawn_type),

@@ -1,5 +1,7 @@
 package sequences;
 import Action;
+import actions.SpawnLineOfBomb;
+import actions.SpawnCruncher;
 
 class World1 extends Sequences {
   override public function new (?options:luxe.options.EntityOptions) {
@@ -9,7 +11,7 @@ class World1 extends Sequences {
 
     // | line of Bombs
     timeline = [];
-    timeline.push({action: actions.SpawnLineOfBomb});
+    timeline.push({action: SpawnLineOfBomb});
     sequences.push(new Sequence({
       name:'line of bombs', timeline: timeline, duration: 0.5, difficulty: 0.03
     }));
@@ -25,30 +27,29 @@ class World1 extends Sequences {
 
     // | MORE lines of bombs
     timeline = [];
-    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 1}});
-    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 2}});
-    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 1.5}});
-    timeline.push({action: actions.SpawnLineOfBomb, options: {start: 1}});
+    timeline.push({action: SpawnLineOfBomb, options: {start: 1}});
+    timeline.push({action: SpawnLineOfBomb, options: {start: 2}});
+    timeline.push({action: SpawnLineOfBomb, options: {start: 1.5}});
+    timeline.push({action: SpawnLineOfBomb, options: {start: 1}});
     sequences.push(new Sequence({
       name:'MORE line of bombs', timeline: timeline, postfix: 1.5, difficulty: 0.33
     }));
 
-    /*
-    TODO: Finish this.
+
     // HELL OF line bombs
     timeline = [];
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1.5}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1.5}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1.5}));
-    actions.push(new actions.SpawnCruncher({delay: 0.2, spawn_type: front}));
-    actions.push(new actions.SpawnCruncher({delay: 0.2, spawn_type: front}));
-    actions.push(new actions.SpawnCruncher({delay: 0.2, spawn_type: front}));
-    actions.push(new actions.SpawnLineOfBomb({delay: 1.5}));
+    timeline.push({ action: SpawnCruncher, options<SpawnCruncherOptions>: {delay: 0.1, spawn_type: front});
+    timeline.push({ action: SpawnCruncher, options: {delay: 0.1, spawn_type: front});
+    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1});
+    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
+    timeline.push({ action: SpawnCruncher, options: {delay: 0.1, spawn_type: front});
+    timeline.push({ action: SpawnCruncher, options: {delay: 0.1, spawn_type: front});
+    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
+    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
+    timeline.push({ action: SpawnCruncher, options: {delay: 0.2, spawn_type: front});
+    timeline.push({ action: SpawnCruncher, options: {delay: 0.2, spawn_type: front});
+    timeline.push({ action: SpawnCruncher, options: {delay: 0.2, spawn_type: front});
+    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
     sequences.push(new Sequence({name:'HELL line of bombs', actions: actions, ending: 1.5, difficulty: 0.7}));
 
 
@@ -87,7 +88,7 @@ class World1 extends Sequences {
     for (i in 0...13) {
       actions.push(new actions.SpawnBomb({delay: 0.3}));
       actions.push(new actions.SpawnBomb({delay: 0.1}));
-      actions.push(new actions.SpawnCruncher({delay: 0.2, spawn_type: front}));
+      actions.push(new SpawnCruncher({delay: 0.2, spawn_type: front}));
     }
 
     sequences.push(new Sequence({name:'UBER bombs', actions: actions, difficulty: 0.69}));
@@ -104,18 +105,18 @@ class World1 extends Sequences {
       actions.push(new actions.SpawnBomb({delay: 0.3}));
     }
 
-    actions.push(new actions.SpawnCruncher({delay: 0.3, spawn_type: back}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: back}));
+    actions.push(new SpawnCruncher({delay: 0.3, spawn_type: back}));
+    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: front}));
+    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: back}));
 
     for (i in 0...15) {
       actions.push(new actions.SpawnBomb({delay: 0.25}));
       actions.push(new actions.SpawnBomb({delay: 0.2}));
     }
 
-    actions.push(new actions.SpawnCruncher({delay: 0.3, spawn_type: front}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: back}));
-    actions.push(new actions.SpawnCruncher({delay: 0.1, spawn_type: front}));
+    actions.push(new SpawnCruncher({delay: 0.3, spawn_type: front}));
+    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: back}));
+    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: front}));
 
     for (i in 0...15) {
       actions.push(new actions.SpawnBomb({delay: 0.2}));
@@ -134,7 +135,7 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...4) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 1, spawn_type: front
       }));
     }
@@ -145,7 +146,7 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...6) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0.7, spawn_type: front
       }));
     }
@@ -161,7 +162,7 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...4) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 1.5, spawn_type: back
       }));
     }
@@ -172,7 +173,7 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...10) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0.7, spawn_type: back
       }));
     }
@@ -189,10 +190,10 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...10) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 1, spawn_type: back
       }));
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0, spawn_type: front
       }));
     }
@@ -205,10 +206,10 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...12) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0.65, spawn_type: back
       }));
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0.1, spawn_type: front
       }));
     }
@@ -222,10 +223,10 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...30) {
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0.5, spawn_type: back
       }));
-      actions.push(new actions.SpawnCruncher({
+      actions.push(new SpawnCruncher({
         delay: 0.2, spawn_type: front
       }));
     }
@@ -241,6 +242,5 @@ class World1 extends Sequences {
     actions.push(new actions.Wait({delay: 1.5}));
     sequences.push(new Sequence({name:'change direction', actions: actions, difficulty: -1}));
 
-    */
   }
 }

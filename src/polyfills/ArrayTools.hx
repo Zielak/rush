@@ -1,7 +1,6 @@
 package polyfills;
 
 class ArrayTools {
-  // TODO: not sure if its correct
   static public function fill<T>(arr:Array<T>, value:Dynamic, ?start:Int = 0, ?end:Int):Array<T> {
     // Steps 1-2.
     // if (this == null) {

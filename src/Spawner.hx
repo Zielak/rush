@@ -9,6 +9,7 @@ import luxe.tween.Actuate;
 import luxe.Vector;
 import luxe.Visual;
 import Action;
+import actions.ChangeSpeed;
 
 class Spawner extends Entity {
 
@@ -217,9 +218,9 @@ class Spawner extends Entity {
 
     // Speed
     // TODO: whoops, options must be of type ChangeSpeedOptions, but expects ActionOptions...
-    timeline.push({ action: actions.ChangeSpeed, options: {
+    timeline.push({ action: ChangeSpeed, options: {
       target_speed: 0
-    });
+    }});
 
     if (reason == 'hope') {
       timeline.push(new actions.ShowTutorialScreen({
