@@ -108,7 +108,7 @@ typedef ActionOptions = {
   @:optional var duration:Float;
 }
 
-typedef ActionDescriptor<T> = {
-  @:optional var options:T;
+typedef ActionDescriptor = {
+  @:optional var options:Dynamic;
   var action:Class<Action>;
 }

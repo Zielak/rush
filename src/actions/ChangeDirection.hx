@@ -7,8 +7,7 @@ class ChangeDirection extends Action {
 
   var _spd:Float = 0;
 
-  override public function action() {
-
+  override public function onStart() {
     // trace('ChangeDirection?');
     _spd = Game.speed;
     slow_down();

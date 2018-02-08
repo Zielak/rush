@@ -2,43 +2,24 @@ package test;
 
 class Sandbox {
   static function main(){
-    var actions:Array<Base> = [];
-    
-    actions.push(new Base());
-    actions.push(new ChildA());
-    actions.push(Base.create(ChildA));
-    // actions.push(Base.create(BaseOther));
+    var arr:ActionOptionsArray = [];
+    arr.push({start: 0., duration: 1.});
+    arr.push({start: 2., duration: 4., test:'set'});
   }
 }
 
-class Base {
-
-  public static function create(classRef:Class<Base>):Base {
-    return Type.createInstance(classRef, []);
-  }
-  
-  public var time:Float = 0;
-  
-  public function new(){
-    time = 1;
+@:forward
+abstract ActionOptionsArray(Array<ActionOptions>) from Array<ActionOptions> to Array<ActionOptions>{
+  public inline function push<T:ActionOptions>(v:T){
+    return this.push(v);
   }
 }
 
-// class BaseFactory<T> {
-//   // @:generic
-//   public static function create<T>():Base<T> {
-//     return new Base<T>();
-//   }
-
-//   private function new () {}
-// }
-
-class ChildA extends Base {
-  
+typedef ActionOptions = {
+  var start:Float;
+  var duration:Float;
 }
-class ChildB extends Base {
-  
-}
-class BaseOther {
-  public function new(){ }
+typedef SecondActionOptions = {
+  > ActionOptions,
+  var test:Int;
 }

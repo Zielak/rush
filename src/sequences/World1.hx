@@ -2,6 +2,10 @@ package sequences;
 import Action;
 import actions.SpawnLineOfBomb;
 import actions.SpawnCruncher;
+import actions.SpawnBomb;
+import actions.ChangeDirection;
+import actions.Wait;
+import Spawner.SpawnPlace;
 
 class World1 extends Sequences {
   override public function new (?options:luxe.options.EntityOptions) {
@@ -38,60 +42,69 @@ class World1 extends Sequences {
 
     // HELL OF line bombs
     timeline = [];
-    timeline.push({ action: SpawnCruncher, options<SpawnCruncherOptions>: {delay: 0.1, spawn_type: front});
-    timeline.push({ action: SpawnCruncher, options: {delay: 0.1, spawn_type: front});
-    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1});
-    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
-    timeline.push({ action: SpawnCruncher, options: {delay: 0.1, spawn_type: front});
-    timeline.push({ action: SpawnCruncher, options: {delay: 0.1, spawn_type: front});
-    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
-    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
-    timeline.push({ action: SpawnCruncher, options: {delay: 0.2, spawn_type: front});
-    timeline.push({ action: SpawnCruncher, options: {delay: 0.2, spawn_type: front});
-    timeline.push({ action: SpawnCruncher, options: {delay: 0.2, spawn_type: front});
-    timeline.push({ action: SpawnLineOfBomb, options: {delay: 1.5});
-    sequences.push(new Sequence({name:'HELL line of bombs', actions: actions, ending: 1.5, difficulty: 0.7}));
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});
+    timeline.push({ action: SpawnLineOfBomb, options: {prefix: 1}});
+    timeline.push({ action: SpawnLineOfBomb, options: {prefix: 1.5}});
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});
+    timeline.push({ action: SpawnLineOfBomb, options: {prefix: 1.5}});
+    timeline.push({ action: SpawnLineOfBomb, options: {prefix: 1.5}});
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.2, spawn_type: front}});
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.2, spawn_type: front}});
+    timeline.push({ action: SpawnCruncher, options: {prefix: 0.2, spawn_type: front}});
+    timeline.push({ action: SpawnLineOfBomb, options: {prefix: 1.5}});
+    sequences.push(new Sequence({name:'HELL line of bombs', timeline: timeline, postfix: 1.5, difficulty: 0.7}));
 
 
     // Spawn stationary bombs
     timeline = [];
 
     for (i in 0...13) {
-      actions.push(new actions.SpawnBomb({delay: 0.6}));
+      timeline.push({action: SpawnBomb, options: {prefix: 0.6}});
     }
 
-    sequences.push(new Sequence({name:'bombs', actions: actions, difficulty: 0.05}));
+    sequences.push(new Sequence({name:'bombs', timeline: timeline, difficulty: 0.05}));
 
     // Spawn MORE BOMBS
     timeline = [];
 
     for (i in 0...18) {
-      actions.push(new actions.SpawnBomb({delay: 0.45}));
+      timeline.push({action: SpawnBomb, options: {prefix: 0.45}});
     }
 
-    sequences.push(new Sequence({name:'MORE bombs', actions: actions, difficulty: 0.17}));
+    sequences.push(new Sequence({name:'MORE bombs', timeline: timeline, difficulty: 0.17}));
 
     // BOMB HELL
     timeline = [];
 
     for (i in 0...16) {
-      actions.push(new actions.SpawnBomb({delay: 0.5}));
-      actions.push(new actions.SpawnBomb({delay: 0}));
+      timeline.push({action: SpawnBomb, options: {prefix: 0.5}});
+      timeline.push({action: SpawnBomb});
     }
 
-    sequences.push(new Sequence({name:'HELL bombs', actions: actions, difficulty: 0.55}));
+    sequences.push(new Sequence({name:'HELL bombs', timeline: timeline, difficulty: 0.55}));
 
 
     // UBER MENSH BOMBORDIER
     timeline = [];
 
     for (i in 0...13) {
-      actions.push(new actions.SpawnBomb({delay: 0.3}));
-      actions.push(new actions.SpawnBomb({delay: 0.1}));
-      actions.push(new SpawnCruncher({delay: 0.2, spawn_type: front}));
+      timeline.push({
+        action: SpawnBomb,
+        options: {prefix: 0.3}
+      });
+      timeline.push({
+        action: SpawnBomb,
+        options: {prefix: 0.45}
+      });
+      timeline.push({
+        action: SpawnCruncher,
+        options: {prefix: 0.2, spawn_type: front}
+      });
     }
 
-    sequences.push(new Sequence({name:'UBER bombs', actions: actions, difficulty: 0.69}));
+    sequences.push(new Sequence({name:'UBER bombs', timeline: timeline, difficulty: 0.69}));
 
 
 
@@ -101,30 +114,30 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...13) {
-      actions.push(new actions.SpawnBomb({delay: 0.5}));
-      actions.push(new actions.SpawnBomb({delay: 0.3}));
+      timeline.push({action: SpawnBomb, options: {prefix: 0.5}});
+      timeline.push({action: SpawnBomb, options: {prefix: 0.3}});
     }
 
-    actions.push(new SpawnCruncher({delay: 0.3, spawn_type: back}));
-    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: front}));
-    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: back}));
+    timeline.push({action: SpawnCruncher, options: {prefix: 0.3, spawn_type: back}});
+    timeline.push({action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});
+    timeline.push({action: SpawnCruncher, options: {prefix: 0.1, spawn_type: back}});
 
     for (i in 0...15) {
-      actions.push(new actions.SpawnBomb({delay: 0.25}));
-      actions.push(new actions.SpawnBomb({delay: 0.2}));
+      timeline.push({action: SpawnBomb, options: {prefix: 0.25}});
+      timeline.push({action: SpawnBomb, options: {prefix: 0.2}});
     }
 
-    actions.push(new SpawnCruncher({delay: 0.3, spawn_type: front}));
-    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: back}));
-    actions.push(new SpawnCruncher({delay: 0.1, spawn_type: front}));
+    timeline.push({action: SpawnCruncher, options: {prefix: 0.3, spawn_type: front}});
+    timeline.push({action: SpawnCruncher, options: {prefix: 0.1, spawn_type: back}});
+    timeline.push({action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});
 
     for (i in 0...15) {
-      actions.push(new actions.SpawnBomb({delay: 0.2}));
-      actions.push(new actions.SpawnBomb({delay: 0.2}));
+      timeline.push({action: SpawnBomb, options: {prefix: 0.2}});
+      timeline.push({action: SpawnBomb, options: {prefix: 0.2}});
     }
 
-    sequences.push(new Sequence({name:'HARDCORE MIX', actions: actions, difficulty: 0.6}));
-    sequences.push(new Sequence({name:'HARDCORE MIX', actions: actions, difficulty: 0.89}));
+    sequences.push(new Sequence({name:'HARDCORE MIX', timeline: timeline, difficulty: 0.6}));
+    sequences.push(new Sequence({name:'HARDCORE MIX', timeline: timeline, difficulty: 0.89}));
 
 
 
@@ -135,23 +148,27 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...4) {
-      actions.push(new SpawnCruncher({
-        delay: 1, spawn_type: front
-      }));
+      timeline.push({
+        action: SpawnCruncher,
+        options: {
+          prefix: 1, spawn_type: front
+        }
+      });
     }
 
-    sequences.push(new Sequence({name:'frontal crunchers', actions: actions, delay: 0.5, difficulty: 0.1}));
+    sequences.push(new Sequence({name:'frontal crunchers', timeline: timeline, prefix: 0.5, difficulty: 0.1}));
 
     // Spawn more frontal Crunchers
     timeline = [];
 
     for (i in 0...6) {
-      actions.push(new SpawnCruncher({
-        delay: 0.7, spawn_type: front
-      }));
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 0.7, spawn_type: front
+      }});
     }
 
-    sequences.push(new Sequence({name:'MORE frontal crunchers', actions: actions, delay: 0.25, difficulty: 0.35}));
+    sequences.push(new Sequence({name:'MORE frontal crunchers', timeline: timeline, prefix: 0.25, difficulty: 0.35}));
 
 
 
@@ -162,23 +179,25 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...4) {
-      actions.push(new SpawnCruncher({
-        delay: 1.5, spawn_type: back
-      }));
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 1.5, spawn_type: back
+      }});
     }
 
-    sequences.push(new Sequence({name:'back crunchers', actions: actions, difficulty: 0}));
+    sequences.push(new Sequence({name:'back crunchers', timeline: timeline, difficulty: 0}));
 
     // Spawn HELL of BACK Crunchers
     timeline = [];
 
     for (i in 0...10) {
-      actions.push(new SpawnCruncher({
-        delay: 0.7, spawn_type: back
-      }));
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 0.7, spawn_type: back
+      }});
     }
 
-    sequences.push(new Sequence({name:'HELL back crunchers', actions: actions, difficulty: 0.7}));
+    sequences.push(new Sequence({name:'HELL back crunchers', timeline: timeline, difficulty: 0.7}));
 
 
 
@@ -190,15 +209,17 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...10) {
-      actions.push(new SpawnCruncher({
-        delay: 1, spawn_type: back
-      }));
-      actions.push(new SpawnCruncher({
-        delay: 0, spawn_type: front
-      }));
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 1, spawn_type: back
+      }});
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 0, spawn_type: front
+      }});
     }
 
-    sequences.push(new Sequence({name:'front&back crunchers', actions: actions, delay: 0, difficulty: 0.2}));
+    sequences.push(new Sequence({name:'front&back crunchers', timeline: timeline, prefix: 0, difficulty: 0.2}));
 
 
 
@@ -206,15 +227,17 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...12) {
-      actions.push(new SpawnCruncher({
-        delay: 0.65, spawn_type: back
-      }));
-      actions.push(new SpawnCruncher({
-        delay: 0.1, spawn_type: front
-      }));
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 0.65, spawn_type: back
+      }});
+      timeline.push({action: SpawnCruncher,
+      options: {
+        prefix: 0.1, spawn_type: front
+      }});
     }
 
-    sequences.push(new Sequence({name:'MORE front&back crunchers', actions: actions, delay: 0, difficulty: 0.4}));
+    sequences.push(new Sequence({name:'MORE front&back crunchers', timeline: timeline, prefix: 0, difficulty: 0.4}));
 
 
 
@@ -223,24 +246,30 @@ class World1 extends Sequences {
     timeline = [];
 
     for (i in 0...30) {
-      actions.push(new SpawnCruncher({
-        delay: 0.5, spawn_type: back
-      }));
-      actions.push(new SpawnCruncher({
-        delay: 0.2, spawn_type: front
-      }));
+      timeline.push({
+        action: SpawnCruncher,
+        options: {
+          prefix: 0.5, spawn_type: back
+        }
+      });
+      timeline.push({
+        action: SpawnCruncher,
+        options: {
+          prefix: 0.2, spawn_type: front
+        }
+      });
     }
 
-    sequences.push(new Sequence({name:'UBER SPIEL', actions: actions, delay: 0.3, difficulty: 0.9}));
+    sequences.push(new Sequence({name:'UBER SPIEL', timeline: timeline, prefix: 0.3, difficulty: 0.9}));
 
 
 
 
     // Change direction
     timeline = [];
-    actions.push(new actions.ChangeDirection({delay: 1.5}));
-    actions.push(new actions.Wait({delay: 1.5}));
-    sequences.push(new Sequence({name:'change direction', actions: actions, difficulty: -1}));
+    timeline.push({action: ChangeDirection, options: {prefix: 1.5}});
+    timeline.push({action: Wait, options: {prefix: 1.5}});
+    sequences.push(new Sequence({name:'change direction', timeline: timeline, difficulty: -1}));
 
   }
 }

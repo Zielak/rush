@@ -16,7 +16,7 @@ class SpawnBomb extends Action {
     }
   }
 
-  override public function action() {
+  override public function onStart() {
     var bomb:Bomb;
     if (_pos != null) {
       bomb = new Bomb({

@@ -157,7 +157,7 @@ class Sequence extends Entity {
 typedef SequenceOptions = {
   > luxe.options.EntityOptions,
   var name:String;
-  var timeline:Array<ActionDescriptor<ActionOptions>>;
+  var timeline:Array<ActionDescriptor>;
   @:optional var duration:Float;
   var difficulty:Float;
 
