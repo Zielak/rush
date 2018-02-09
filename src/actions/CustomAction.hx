@@ -11,7 +11,7 @@ class CustomAction extends Action {
     custom_action = options.action;
   }
 
-  override public function action() {
+  override public function onStart() {
     custom_action();
   }
 

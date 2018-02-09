@@ -2,7 +2,6 @@ package actions;
 
 import Action.ActionOptions;
 import luxe.Color;
-import luxe.Input;
 import luxe.Rectangle;
 import luxe.Sprite;
 import luxe.tween.Actuate;
@@ -10,7 +9,6 @@ import luxe.Vector;
 import luxe.Visual;
 import phoenix.Batcher;
 import phoenix.Texture;
-import phoenix.geometry.Geometry;
 import snow.api.Timer;
 
 class ShowTutorialScreen extends Action {
@@ -122,7 +120,7 @@ class ShowTutorialScreen extends Action {
 
   }
 
-  override public function action() {
+  override public function onStart() {
 
     show_screen();
 

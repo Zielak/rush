@@ -175,6 +175,11 @@ class Spawner extends Entity {
     this.events.listen('sequence.gal', function(_) {
       init_gal_sequences();
     });
+    
+    Luxe.events.listen('tutorial.finished', function(_) {
+      Game.tutorial = false;
+      init_sequences();
+    });
   }
 
   function init_sequences() {
@@ -187,15 +192,6 @@ class Spawner extends Entity {
     }
     sequences.pickSequence();
   }
-
-  function finish_tutorial() {
-    Game.tutorial = false;
-
-    Luxe.events.fire('tutorial.finished');
-
-    init_sequences();
-  }
-
 
   function init_game_over_sequences(reason:String) {
     trace('init_game_over_sequences');
@@ -223,35 +219,35 @@ class Spawner extends Entity {
     }});
 
     if (reason == 'hope') {
-      timeline.push(new actions.ShowTutorialScreen({
-        delay: 0.5,
+      timeline.push({action: actions.ShowTutorialScreen, options: {
+        prefix: 0.5,
         screen: 'assets/images/text.gif',
         uv: new Rectangle(0, 24, 108, 24),
         pos: new Vector(Game.width/2, 40),
         wait: true,
         wait_input: true,
-      }));
+      }});
 
     }
 
     else if (reason == 'distance') {
-      timeline.push(new actions.ShowTutorialScreen({
-        delay: 0.5,
+      timeline.push({action: actions.ShowTutorialScreen, options: {
+        prefix: 0.5,
         screen: 'assets/images/text.gif',
         uv: new Rectangle(0, 0, 86, 24),
         pos: new Vector(Game.width/2, 40),
         wait: true,
         wait_input: true,
-      }));
+      }});
 
     }
 
-    timeline.push(new actions.CustomAction({
-      delay: 1,
+    timeline.push({action: actions.CustomAction, options: {
+      prefix: 1,
       action: function() {
         Luxe.events.fire('game.over.quit');
       }
-    }));
+    }});
 
     gameover_seq = new Sequence({name:'game over', timeline: timeline, difficulty: -1});
 
@@ -262,27 +258,27 @@ class Spawner extends Entity {
   function init_gal_sequences() {
     trace('init_gal_sequences');
 
-    var actions:Array<Action> = new Array<Action>();
+    var timeline:Array<ActionDescriptor> = new Array<ActionDescriptor>();
 
     // It's nice to see you
-    actions.push(new actions.ShowTutorialScreen({
-      delay: 4,
+    timeline.push({ action: actions.ShowTutorialScreen, options: {
+      prefix: 4,
       screen: 'assets/images/text.gif',
       uv: new Rectangle(0, 144, 72, 24),
       pos: new Vector(Game.width/2, 40),
       wait: true,
       wait_input: true,
-    }));
+    }});
 
 
-    actions.push(new actions.CustomAction({
-      delay: 1,
+    timeline.push({ action: actions.CustomAction, options: {
+      prefix: 1,
       action: function() {
         Luxe.events.fire('game.over.quit');
       }
-    }));
+    }});
 
-    gameover_seq = new Sequence({name:'game over gal', actions: actions, difficulty: -1});
+    gameover_seq = new Sequence({name:'game over gal', timeline: timeline, difficulty: -1});
 
   }
 
@@ -300,31 +296,31 @@ class Spawner extends Entity {
         spawn_crate();
       }
 
-      if (sequences.length > 0) {
-        if (sequences.update(dt)) {
-          sequences.pickSequence();
-        }
-      }
+      // if (sequences.length > 0) {
+      //   if (sequences.update(dt)) {
+      //     sequences.pickSequence();
+      //   }
+      // }
     }
 
     if (Game.tutorial) {
       if (tilespawn_density < tilespawn_density_max) {
         tilespawn_density += dt/20;
       }
-      if (sequences.update(dt)) {
-        finish_tutorial();
-      }
+      // if (sequences.update(dt)) {
+      //   finish_tutorial();
+      // }
     }
 
     if (!Game.playing && Game.gameover) {
       if (gameover_seq==null) {
 
       }
-      else if (gameover_seq.update(dt)) {
-        trace('gonna fire event');
-        Luxe.events.fire('game.over.quit');
-        gameover_seq == null;
-      }
+      // else if (gameover_seq.update(dt)) {
+      //   trace('gonna fire event');
+      //   Luxe.events.fire('game.over.quit');
+      //   gameover_seq == null;
+      // }
     }
   }
 

@@ -29,10 +29,10 @@ class Action {
   @:isVar public var finished(default, null):Bool = false;
 
   public function new (?options:ActionOptions) {
-    if (options.start != null) {
+    if (options != null && options.start != null) {
       start = options.start;
     }
-    if (options.duration != null) {
+    if (options != null && options.duration != null) {
       duration = options.duration;
     }
   }

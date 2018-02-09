@@ -13,10 +13,9 @@ class Sequences extends Entity {
     return sequences.length;
   }
 
-  public function new (options:luxe.options.EntityOptions) {
+  public function new (?options:luxe.options.EntityOptions) {
     super(options);
     sequences = new Array<Sequence>();
-
     initEvents();
   }
 

@@ -73,6 +73,7 @@ class Sequence extends Entity {
 
   public static function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
     var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor) {
+      // return new desc.action(desc.options);
       return Type.createInstance(desc.action, [desc.options]);
     });
     // for(desc in actionsDescriptors){

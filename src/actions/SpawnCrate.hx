@@ -21,7 +21,7 @@ class SpawnCrate extends Action {
     super(options);
   }
 
-  override public function action() {
+  override public function onStart() {
     if (pos == null) {
       pos = Spawner.pick_place(front);
     }
