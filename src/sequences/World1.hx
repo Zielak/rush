@@ -39,7 +39,6 @@ class World1 extends Sequences {
       name:'MORE line of bombs', timeline: timeline, postfix: 1.5, difficulty: 0.33
     }));
 
-
     // HELL OF line bombs
     timeline = [];
     timeline.push({ action: SpawnCruncher, options: {prefix: 0.1, spawn_type: front}});

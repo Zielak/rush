@@ -1,7 +1,6 @@
-import luxe.Entity;
 import Action;
 
-using polyfills.ArrayTools;
+// using polyfills.ArrayTools;
 
 /**
  *  Sequence is a self-running timeline of actions.
@@ -9,7 +8,9 @@ using polyfills.ArrayTools;
  *  see it in action etc.
  */
 
-class Sequence extends Entity {
+class Sequence {
+
+  public var name:String;
 
   @:isVar public var timeline(default, null):Array<Action>;
 
@@ -30,13 +31,13 @@ class Sequence extends Entity {
   // Current time in seconds
   @:isVar public var currentTime(default, null):Float = 0;
   // Time, but in percent 0-1.0
-  public var current(default, null):Float;
+  public var current(get, null):Float;
   public function get_current():Float {
     return wholeDuration/currentTime * 100;
   }
 
-  var currentActions(default, null):Array<Action>;
-  public function get_currentActions():Array<Action> {
+  var currentActions(get, null):Array<Action>;
+  function get_currentActions():Array<Action> {
     return timeline.filter(function(action):Bool{
       // 1. currentTime between its start and end.
       // 2. If end time passed, check if it was even fired (missed short action?)
@@ -55,8 +56,6 @@ class Sequence extends Entity {
   var blockers:Array<Action>;
 
   public function new (options:SequenceOptions) {
-    super(options);
-
     name = options.name;
     timeline = populateActions(options.timeline);
     difficulty = options.difficulty;
@@ -68,29 +67,7 @@ class Sequence extends Entity {
     // calculate duration
     duration = calculateDuration(timeline);
 
-    initEvents();
-  }
-
-  public static function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
-    var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor) {
-      // return new desc.action(desc.options);
-      return Type.createInstance(desc.action, [desc.options]);
-    });
-    // for(desc in actionsDescriptors){
-    //   var action = Type.createInstance();
-    //   arr.push(action);
-    // }
-    return arr;
-  }
-
-  public static function calculateDuration(timeline:Array<Action>):Float {
-    var length:Float = 0;
-    for(a in timeline) {
-      if(a.start + a.duration > length){
-        length = a.start + a.duration;
-      }
-    }
-    return length;
+    blockers = [];
   }
 
   function initEvents() {
@@ -109,12 +86,24 @@ class Sequence extends Entity {
     }
   }
 
+  function clearEvents() {
+    // TODO:
+  }
+
+  public function enable() {
+    initEvents();
+  }
+
+  public function disable() {
+    clearEvents();
+  }
+
   /**
    *  Update the sequence
    *  @param dt - selta time
    *  @return Bool wether this sequence finished or not yet
    */
-  override public function update(dt:Float) {
+  public function update(dt:Float) {
 
     if (!finished && currentTime > wholeDuration) {
       finished = true;
@@ -152,6 +141,29 @@ class Sequence extends Entity {
     finished = true;
   }
 
+  // STATIC
+
+  public static function populateActions(actionsDescriptors:Array<ActionDescriptor>):Array<Action> {
+    var arr:Array<Action> = actionsDescriptors.map(function(desc:ActionDescriptor) {
+      // return new desc.action(desc.options);
+      return Type.createInstance(desc.action, [desc.options]);
+    });
+    // for(desc in actionsDescriptors){
+    //   var action = Type.createInstance();
+    //   arr.push(action);
+    // }
+    return arr;
+  }
+
+  public static function calculateDuration(timeline:Array<Action>):Float {
+    var length:Float = 0;
+    for (a in timeline) {
+      if (a.start + a.duration > length) {
+        length = a.start + a.duration;
+      }
+    }
+    return length;
+  }
 
 }
 

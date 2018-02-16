@@ -1,7 +1,7 @@
 
-import luxe.options.ComponentOptions;
+// import luxe.options.ComponentOptions;
 import luxe.options.SpriteOptions;
-import luxe.Rectangle;
+// import luxe.Rectangle;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.components.sprite.SpriteAnimation;

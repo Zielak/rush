@@ -1,6 +1,6 @@
 package actions;
 
-import Action.ActionOptions;
+import Action;
 import enemies.Bomb;
 import luxe.Vector;
 
@@ -8,10 +8,10 @@ class SpawnBomb extends Action {
 
   var _pos:Vector;
 
-  override public function new (options:SpawnBombOptions) {
+  override public function new (?options:SpawnBombOptions) {
     super(options);
 
-    if (options.pos != null) {
+    if (options != null && options.pos != null) {
       _pos = options.pos;
     }
   }
